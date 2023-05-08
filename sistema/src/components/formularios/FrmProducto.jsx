@@ -51,7 +51,7 @@ const FrmProducto = () => {
     })
   }
 
-  
+  listar()
 
   return (
     
@@ -164,7 +164,7 @@ const FrmProducto = () => {
 
       <Form.Group as={Row} className="mb-3">
         <Col   sm={{ span: 0, offset: 0 }}>
-          <Button onClick={registrar} style={{margin:"10px"}} variant="success">Guardar</Button>
+          <Button onClick={registrar} style={{margin:"10px"}} variant="success" type="submit">Guardar</Button>
           <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button>
           <Button style={{margin:"10px"}} variant="danger" type="submit">Eliminar</Button>
         </Col>     
@@ -208,7 +208,7 @@ const FrmProducto = () => {
       
     </tbody>
   </Table>
-  {listar()}
+ 
  </div>
   )
 }
