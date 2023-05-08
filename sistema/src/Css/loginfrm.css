@@ -1,0 +1,16 @@
+.cascading-right {
+  margin-right: -50px;
+}
+
+@media (max-width: 900px) {
+  .cascading-right {
+    margin-right: 0;
+  }
+}
+.contain{
+  padding-left: 0px;
+  width: 850px;
+}
+.imglog {
+  width: 470px;
+}
