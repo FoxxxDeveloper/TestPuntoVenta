@@ -1,9 +1,12 @@
 .dgv {
     margin-left: 500px;
-    position: absolute;
-    top: 150px;
-    left: -5em;
+    margin-top: -740px;
+    
 }
 .for {
+    position: sticky;
+    top: 100px;
     margin-left: 50px;
+    
+    
 }

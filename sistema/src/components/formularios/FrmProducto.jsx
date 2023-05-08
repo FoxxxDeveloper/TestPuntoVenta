@@ -62,9 +62,9 @@ const FrmProducto = () => {
       
 
       
-    <Form className='for'>
+    <Form className='for '>
         <h3>Detalle Producto</h3>
-      <Form.Group className="mb-3" controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Código:
         </Form.Label>
