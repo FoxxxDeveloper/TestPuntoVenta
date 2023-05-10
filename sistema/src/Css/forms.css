@@ -3,8 +3,17 @@
     position: sticky;
     margin-left: 10px;
     margin-right: 50px;
-    width: 350px;    
+    width: 850px;    
 }
 .contfrm {
     display: flex;
+}
+.contfrm2 {
+    display: flex;
+    width: 800px;
+}
+
+.contfrm3 {
+    display: flex;
+    width: 1500px;
 }

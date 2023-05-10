@@ -120,7 +120,7 @@ const FrmProducto = () => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: '¡No se pudo registrar el producto!',
+        text: '¡No se pudo editar el producto!',
         footer: 'Debe rellenar todos los campos'
       }) 
 
@@ -165,9 +165,9 @@ const FrmProducto = () => {
     buttonsStyling: false
   })
 
-  const deleteProducto = (persona) =>{
+  const deleteProducto = (producto) =>{
     pregdelete.fire({
-      title: '¿Estas seguro que desea eliminar el producto "<strong>'+persona.Nombre+'</strong>"?' ,
+      title: '¿Estas seguro que desea eliminar el producto "<strong>'+producto.Nombre+'</strong>"?' ,
       text: "¡Esta acción no se podrá revertir!",
       icon: 'warning',
       showCancelButton: true,
@@ -178,11 +178,11 @@ const FrmProducto = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteproducto/"+persona.IdProducto)
+      Axios.delete("http://localhost:3001/deleteproducto/"+producto.IdProducto)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
-          html: <i>El producto <strong>{persona.Nombre}</strong> ha sido eliminado correctamente</i>,
+          html: <i>El producto <strong>{producto.Nombre}</strong> ha sido eliminado correctamente</i>,
           icon: 'success',
           timer: 3000
         })
