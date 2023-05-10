@@ -8,8 +8,11 @@ import {
   } from 'mdb-react-ui-kit';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import "@fortawesome/fontawesome-free/css/all.min.css";
+
   
-const Footer = () => {
+  const Footer = () => {
+ 
+
   return (
     <MDBFooter bgColor='primary' className='text-white text-center text-lg-left'>
       <MDBContainer className='p-4'>

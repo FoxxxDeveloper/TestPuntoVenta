@@ -23,20 +23,15 @@ app.post("/createproducto",(req,res)=>{
     const PrecioCompra = req.body.PrecioCompra;
     const PrecioVenta = req.body.PrecioVenta;
     const Estado = req.body.EstadoValor;
-
-    if(Estado=="") {Estado=1}
     
     db.query("Insert into producto (Codigo, Nombre, Descripcion, PrecioCompra,PrecioVenta, Stock, IdCategoria, Estado) values (?,?,?,?,?,?,?,?)",[Codigo,Nombre,Descripcion,PrecioCompra,PrecioVenta,Stock,IdCategoria,Estado],
     (err,result)=>{
         if(err){
         console.log(err)
     }else{
-        res.send("¡Producto creado correctamente!")
+        res.send(result)
     }
-
-    }
-    );
-
+    });
 });
 
 
@@ -49,6 +44,43 @@ app.get("/productos",(req,res)=>{
         res.send(result)
     }});
 });
+
+
+app.put("/updateproducto",(req,res)=>{
+    const IdProducto = req.body.IdProducto;
+    const Codigo = req.body.Codigo;
+    const Nombre = req.body.Nombre;
+    const Descripcion = req.body.Descripcion;
+    const IdCategoria = req.body.IdCategoria;
+    const Stock = req.body.Stock;
+    const PrecioCompra = req.body.PrecioCompra;
+    const PrecioVenta = req.body.PrecioVenta;
+    const Estado = req.body.EstadoValor;
+
+    if(Estado=="") {Estado=1}
+    
+    db.query("update producto set Codigo=?, Nombre=?, Descripcion=?, PrecioCompra=?,PrecioVenta=?, Stock=?, IdCategoria=?, Estado=? where idProducto = ?",[Codigo,Nombre,Descripcion,PrecioCompra,PrecioVenta,Stock,IdCategoria,Estado,IdProducto],
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
+
+app.delete("/deleteproducto/:id",(req,res)=>{
+    const IdProducto = req.params.id;
+
+    db.query("delete from producto where idProducto = ?",IdProducto,
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
+
+
 
 
 app.listen(3001, ()=> {

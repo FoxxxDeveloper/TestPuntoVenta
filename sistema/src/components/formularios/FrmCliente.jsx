@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-
+import Header from '../Header';
+import Footer from '../Footer';
 
 const FrmCliente = () => {
         const handleChange = (e) => {
@@ -14,6 +15,7 @@ const FrmCliente = () => {
   return (
     
     <div>
+      <Header/>
     <Form>
         <h3>Detalle Cliente</h3>
       <Form.Group className="mb-3" controlId="formHorizontalEmail">
@@ -75,6 +77,7 @@ const FrmCliente = () => {
           
       </Form.Group>
     </Form>
+    <Footer/>
     </div>
   )
 }

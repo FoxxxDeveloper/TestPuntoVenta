@@ -7,14 +7,18 @@ import Table from 'react-bootstrap/Table';
 import '../../Css/forms.css'
 import { useState } from 'react';
 import Axios from 'axios';
+import Header from '../Header';
+import Footer from '../Footer';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import {MDBIcon} from 'mdb-react-ui-kit';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
-
-
-
+const noti = withReactContent(Swal)
 
 const FrmProducto = () => {
-       
-    
+  <Header/>
+  const [IdProducto,setIdProducto] = useState(0);
   const [Codigo,setCodigo] = useState("");
   const [Nombre,setNombre] = useState("");
   const [Descripcion,setDescripcion] = useState("");
@@ -22,13 +26,25 @@ const FrmProducto = () => {
   const [Stock,setStock] = useState(0);
   const [PrecioCompra,setPrecioCompra] = useState(0);
   const [PrecioVenta,setPrecioVenta] = useState(0);
-  const [EstadoValor,setEstadoValor] = useState("");
+  const [EstadoValor,setEstadoValor] = useState(1);
   const [productosList,setProductos] = useState([])
+  const [editar,setEditar] = useState(false)
 
   
 
   const registrar = () =>{
-    var cod = document.getElementById("estadoo").value;
+
+    
+    if(Codigo===""|| Nombre===""||Descripcion===""||PrecioCompra===0||PrecioVenta===0) {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se pudo registrar el producto!',
+        footer: 'Debe rellenar todos los campos'
+      }) 
+
+    }else{
     Axios.post("http://localhost:3001/createproducto",{
     Codigo:Codigo,
     Nombre:Nombre,
@@ -38,11 +54,26 @@ const FrmProducto = () => {
     Stock:Stock,
     PrecioCompra:PrecioCompra,
     PrecioVenta:PrecioVenta,
-    EstadoValor:cod
+    EstadoValor:EstadoValor
     }).then(()=>{
-      alert("Producto registrado")
       
-    })
+      noti.fire({
+        title: <strong>¡Operacion exitosa!</strong>,
+        html: <i>El producto <strong>{Nombre}</strong> ha sido agregado correctamente</i>,
+        icon: 'success',
+        timer: 3000
+      })
+      limpiarCampos()
+      
+    }).catch(function(error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se pudo registrar el producto!',
+        footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
+      }) })
+
+    }
   }
 
   const listar = () =>{
@@ -51,16 +82,142 @@ const FrmProducto = () => {
     })
   }
 
+  const limpiarCampos = () =>{
+    setIdProducto(0)
+    setCodigo("")
+    setNombre("")
+    setDescripcion("")
+    setIdCategoria("")
+    setStock(0)
+    setPrecioCompra(0)
+    setPrecioVenta(0)
+    setEstadoValor(1)
+    setEditar(false)
+    
+  }
+
+  const editarProducto = (val) =>{
+    setEditar(true)
+    setIdProducto(val.IdProducto)
+    setCodigo(val.Codigo)
+    setNombre(val.Nombre)
+    setDescripcion(val.Descripcion)
+    setIdCategoria(val.IdCategoria)
+    setStock(val.Stock)
+    setPrecioCompra(val.PrecioCompra)
+    setPrecioVenta(val.PrecioVenta)
+    setEstadoValor(val.Estado)
+
+    
+  }
+ 
+  
+
+  const updateProducto = () =>{
+
+    if(Codigo===""|| Nombre===""||Descripcion===""||PrecioCompra===0||PrecioVenta===0) {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se pudo registrar el producto!',
+        footer: 'Debe rellenar todos los campos'
+      }) 
+
+    }else{
+
+    Axios.put("http://localhost:3001/updateproducto",{
+    IdProducto:IdProducto,
+    Codigo:Codigo,
+    Nombre:Nombre,
+    Descripcion:Descripcion,
+    //IdCategoria:IdCategoria,
+    IdCategoria:1,
+    Stock:Stock,
+    PrecioCompra:PrecioCompra,
+    PrecioVenta:PrecioVenta,
+    EstadoValor:EstadoValor
+    }).then(()=>{
+      listar()
+      noti.fire({
+        title: <strong>¡Operacion exitosa!</strong>,
+        html: <i>El producto <strong>{Nombre}</strong> ha sido editado correctamente</i>,
+        icon: 'success',
+        timer: 3000
+      })
+      limpiarCampos()
+
+    }).catch(function(error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se pudo actualizar el producto!',
+        footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
+      }) })
+    }
+  }
+
+  const pregdelete = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+
+  const deleteProducto = (persona) =>{
+    pregdelete.fire({
+      title: '¿Estas seguro que desea eliminar el producto "<strong>'+persona.Nombre+'</strong>"?' ,
+      text: "¡Esta acción no se podrá revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      
+    if(result.isConfirmed){
+      Axios.delete("http://localhost:3001/deleteproducto/"+persona.IdProducto)
+      .then(()=>{listar()
+        noti.fire({
+          title: <strong>¡Eliminado!</strong>,
+          html: <i>El producto <strong>{persona.Nombre}</strong> ha sido eliminado correctamente</i>,
+          icon: 'success',
+          timer: 3000
+        })
+        limpiarCampos() 
+      }).catch(function(error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '¡No se pudo eliminar el producto!',
+          footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
+        }) })
+
+
+
+
+    } 
+    })
+
+
+
+
+    
+  }
+
+
   listar()
 
   return (
     
     <div>
 
+    <Header/>
       
       
-      
-
+    <div className='contfrm'>
       
     <Form className='for '>
         <h3>Detalle Producto</h3>
@@ -68,86 +225,96 @@ const FrmProducto = () => {
         <Form.Label column sm={2}>
           Código:
         </Form.Label>
-        <Col sm={2}>
+        <Col>
           <Form.Control 
           onChange={(event) => {
             setCodigo(event.target.value)
           }}
+          value={Codigo}
           type="string" placeholder="Código" />
         </Col>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
+        <Form.Label>
           Nombre:
         </Form.Label>
-        <Col sm={2}>
+        <Col >
           <Form.Control 
           onChange={(event) => {
             setNombre(event.target.value)
           }}
+          value={Nombre}
           type="string" placeholder="Nombre" />
         </Col>
       </Form.Group>
       
       <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
+        <Form.Label>
           Descripción:
         </Form.Label>
-        <Col sm={2}>
+        <Col>
           <Form.Control 
           onChange={(event) => {
             setDescripcion(event.target.value)
           }}
+          value={Descripcion}
           type="string" placeholder="Descripción" />
         </Col>
       </Form.Group>
       
       <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
+        <Form.Label>
           Precio Compra:
         </Form.Label>
-        <Col sm={2}>
+        <Col>
           <Form.Control
           onChange={(event) => {
             setPrecioCompra(event.target.value)
           }}
+          value={PrecioCompra}
           type="number" placeholder="Precio Compra" />
         </Col>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
+        <Form.Label >
           Precio Venta:
         </Form.Label>
-        <Col sm={2}>
+        <Col>
           <Form.Control 
           onChange={(event) => {
             setPrecioVenta(event.target.value)
           }}
+          value={PrecioVenta}
           type="number" placeholder="Precio Venta" />
         </Col>
       </Form.Group>
       
       <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
+        <Form.Label >
           Stock
         </Form.Label>
-        <Col sm={2}>
+        <Col>
           <Form.Control 
           onChange={(event) => {
             setStock(event.target.value)
           }}
+          value={Stock}
           type="number" placeholder="Stock" />
         </Col>
       </Form.Group>
       <fieldset>
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>  
+      <Form.Group onChange={(event) => {
+            setEstadoValor(event.target.value)
+          }} 
+          
+          className="mb-3" controlId="formHorizontalPassword">
+        <Form.Label>  
           Estado
         </Form.Label>
-        <Col sm={2}>
-        <select id='estadoo'
+        <Col>
+        <select value={EstadoValor}
         // onChange={(event) => 
         //   setEstadoValor(event.target.value)
         // }
@@ -163,15 +330,20 @@ const FrmProducto = () => {
       </fieldset>
 
       <Form.Group as={Row} className="mb-3">
-        <Col   sm={{ span: 0, offset: 0 }}>
-          <Button onClick={registrar} style={{margin:"10px"}} variant="success" type="submit">Guardar</Button>
-          <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button>
-          <Button style={{margin:"10px"}} variant="danger" type="submit">Eliminar</Button>
+        {
+          editar?<Col   sm={{ span: 0, offset: 0 }}>
+          <Button onClick={updateProducto} style={{margin:"10px"}} variant="warning">Actualizar</Button>
+          <Button onClick={limpiarCampos} style={{margin:"10px"}} variant="success">Cancelar</Button>
         </Col>     
+          :<Col   sm={{ span: 0, offset: 0 }}>
+          <Button onClick={registrar} style={{margin:"10px"}} variant="primary">Registrar</Button>
+        </Col> 
+        }
+            
           
       </Form.Group>
     </Form>
-
+    {/* <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button> */}
     <Table striped bordered hover variant="dark" size="sm" style={{width:"1400px"}} className='dgv '>
     <thead>
       <tr>
@@ -183,6 +355,7 @@ const FrmProducto = () => {
         <th>Precio Compra</th>
         <th>Precio Venta</th>
         <th>Estado</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -200,6 +373,14 @@ const FrmProducto = () => {
         <td> {producto.PrecioCompra} </td>
         <td> {producto.PrecioVenta} </td>
         <td> {producto.Estado} </td>
+        <td style={{width:"110px"}}>
+        <ButtonGroup aria-label="Basic example">
+          <Button onClick={()=>{editarProducto(producto)}} ><MDBIcon fas icon="pencil-alt" /></Button>
+          
+          <Button onClick={()=>{deleteProducto(producto)}} style={{marginRight:"10px"}} variant='danger'><MDBIcon fas icon="trash-alt" /></Button> 
+          </ButtonGroup>
+          
+        </td>
 
         
         </tr>
@@ -208,9 +389,12 @@ const FrmProducto = () => {
       
     </tbody>
   </Table>
- 
+  </div>
+  <Footer/>
  </div>
+ 
   )
+  
 }
 
 export default FrmProducto

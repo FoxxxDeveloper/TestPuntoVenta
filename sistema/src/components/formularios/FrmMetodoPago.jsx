@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-
+import Header from '../Header';
+import Footer from '../Footer';
 
 const FrmMetodoPago = () => {
         const handleChange = (e) => {
@@ -14,6 +15,7 @@ const FrmMetodoPago = () => {
   return (
     
     <div>
+      <Header/>
     <Form>
         <h3>Detalle Metodo de Pago</h3>
 
@@ -59,6 +61,7 @@ const FrmMetodoPago = () => {
           
       </Form.Group>
     </Form>
+    <Footer/>
     </div>
   )
 }

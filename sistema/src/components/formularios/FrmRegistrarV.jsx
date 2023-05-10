@@ -1,8 +1,13 @@
 import React from 'react'
-
+import Header from '../Header';
+import Footer from '../Footer';
 const FrmRegistrarV = () => {
   return (
-    <div>FrmRegistrarV</div>
+    <div>
+      <Header/>
+    FrmRegistrarV
+    <Footer/>
+    </div>
   )
 }
 

@@ -1,8 +1,13 @@
 import React from 'react'
-
+import Header from '../Header';
+import Footer from '../Footer';
 const FrmReporteV = () => {
   return (
-    <div>FrmReporteV</div>
+    <div>
+      <Header/>
+      FrmReporteV
+      <Footer/>
+      </div>
   )
 }
 
