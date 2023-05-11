@@ -31,7 +31,7 @@ const Loginfrm = () => {
               <MDBInput wrapperClass='mb-4' label='Usuario' id='form3' type='email'/>
               <MDBInput wrapperClass='mb-4' label='Contraseña' id='form4' type='password'/>
 
-              <MDBBtn className='w-100 mb-4' size='md'>Ingresar</MDBBtn>
+              <MDBBtn className='w-100 mb-4' size='md' href='/Inicio'>Ingresar</MDBBtn>
 
 
             </MDBCardBody>

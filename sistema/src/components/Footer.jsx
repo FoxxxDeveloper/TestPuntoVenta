@@ -36,7 +36,7 @@ import {
               </p>
               <p tyle={{fontSize:'20px'}}> <MDBIcon icon='envelope' className='me-3'size='lg' /> deoxysmu00@gmail.com </p>
               <p tyle={{fontSize:'20px'}}> <MDBIcon icon='phone' className='me-3' size='lg' /> + 54 9 3814031834 </p>
-              <a href="https://instagram.com/fox._developer/"><p  style={{color: 'white', fontSize:'20px'}}>
+              <a href="https://instagram.com/fox._developer/" target='blank'><p  style={{color: 'white', fontSize:'20px'}}>
                 <MDBIcon fab  icon='instagram' className='me-3' size='lg'/> Fox Developer
               </p></a> 
             </MDBCol>

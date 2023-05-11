@@ -27,7 +27,7 @@ const FrmUsuario = () => {
   const [EstadoValor,setEstadoValor] = useState(1);
   const [UsuarioList,setUsuarios] = useState([])
   const [editar,setEditar] = useState(false)
-
+  const [rolList,setRoles] = useState([])
   
 
   const registrar = () =>{
@@ -75,6 +75,12 @@ const FrmUsuario = () => {
   const listar = () =>{
     Axios.get("http://localhost:3001/Usuarios").then((response)=>{
       setUsuarios(response.data)
+    })
+  }
+
+  const listarRoles = () =>{
+    Axios.get("http://localhost:3001/roles").then((response)=>{
+      setRoles(response.data)
     })
   }
 
@@ -198,6 +204,7 @@ const FrmUsuario = () => {
 
 
   listar()
+  listarRoles()
 
   return (
     
@@ -266,7 +273,33 @@ const FrmUsuario = () => {
           type="password" placeholder="Clave" />
         </Col>
       </Form.Group>
-
+      <fieldset>
+      <Form.Group onChange={(event) => {
+            setIdRol(event.target.value)
+          }} 
+          
+          className="mb-3" controlId="formHorizontalRol">
+        <Form.Label>  
+          Rol
+        </Form.Label>
+        <Col>
+        <Form.Select value={IdRol}
+        onChange={(event) => 
+          setIdRol(event.target.value)
+        }
+        >
+             {rolList.map((rol) =>
+      
+              (
+              <option key={rol.IdRol} value={rol.IdRol}>{rol.Descripcion}</option>
+            ))}
+    		
+        
+   		</Form.Select>
+           </Col>
+      </Form.Group>
+      
+      </fieldset>
       <fieldset>
       <Form.Group onChange={(event) => {
             setEstadoValor(event.target.value)
@@ -313,6 +346,7 @@ const FrmUsuario = () => {
         <th>Documento</th>
         <th>Nombre Completo</th>
         <th>Correo</th>
+        <th>ROL</th>
         <th>Estado</th>
         <th>Acciones</th>
       </tr>
@@ -326,6 +360,7 @@ const FrmUsuario = () => {
         <td> {Usuario.Documento} </td>
         <td> {Usuario.NombreCompleto}</td>
         <td> {Usuario.Correo} </td>
+        <td> {Usuario.Descripcion} </td>
         <td> {Usuario.Estado} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">

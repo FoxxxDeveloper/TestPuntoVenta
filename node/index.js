@@ -13,6 +13,20 @@ const db=mysql.createConnection({
     database:"dbsistema_venta"
 
 })
+
+//    //   //   // Consulta ROLES  //    //   //   //
+app.get("/roles",(req,res)=>{
+    db.query("SELECT IdRol, Descripcion from rol",
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
+
+
+
     //    //   //   // CRUD DE PRODUCTOS  //    //   //   //
 app.post("/createproducto",(req,res)=>{
     const Codigo = req.body.Codigo;
@@ -104,7 +118,7 @@ app.post("/createusuario",(req,res)=>{
 
 
 app.get("/usuarios",(req,res)=>{
-    db.query("SELECT * from usuario;",
+    db.query("select u.IdUsuario,u.Documento,u.NombreCompleto,u.Correo,u.Clave,u.Estado, r.IdRol, r.Descripcion from usuario u inner join rol r on r.IdRol = u.idRol;",
     (err,result)=>{
         if(err){
         console.log(err)
