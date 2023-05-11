@@ -23,7 +23,7 @@ const FrmUsuario = () => {
   const [NombreCompleto,setNombreCompleto] = useState("");
   const [Correo,setCorreo] = useState("");
   const [Clave,setClave] = useState("");
-  const [IdRol,setIdRol] = useState("");
+  const [IdRol,setIdRol] = useState(1);
   const [EstadoValor,setEstadoValor] = useState(1);
   const [UsuarioList,setUsuarios] = useState([])
   const [editar,setEditar] = useState(false)
@@ -49,7 +49,7 @@ const FrmUsuario = () => {
     NombreCompleto:NombreCompleto,
     Correo:Correo,
     Clave:Clave,
-    IdRol,IdRol,
+    IdRol:IdRol,
     EstadoValor:EstadoValor
     }).then(()=>{
       
@@ -92,14 +92,14 @@ const FrmUsuario = () => {
 
   const editarUsuario = (val) =>{
     setEditar(true)
-    setIdUsuario(val.IdUsuario)
+    setIdUsuario(val.idUsuario)
     setDocumento(val.Documento)
     setNombreCompleto(val.NombreCompleto)
     setCorreo(val.Correo)
     setClave(val.Clave)
-    setIdRol(val.IdRol)
+    setIdRol(val.idRol)
     setEstadoValor(val.Estado)
-
+    console.log(val)
     
   }
  
@@ -167,7 +167,7 @@ const FrmUsuario = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteUsuario/"+Usuario.IdUsuario)
+      Axios.delete("http://localhost:3001/deleteUsuario/"+Usuario.idUsuario)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
@@ -210,7 +210,7 @@ const FrmUsuario = () => {
       
     <Form className='for '>
         <h3>Detalle Usuario</h3>
-      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalDoc">
         <Form.Label column sm={2}>
           Documento:
         </Form.Label>
@@ -219,12 +219,13 @@ const FrmUsuario = () => {
           onChange={(event) => {
             setDocumento(event.target.value)
           }}
+          
           value={Documento}
           type="string" placeholder="Documento" />
         </Col>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalName">
         <Form.Label>
           Nombre Completo:
         </Form.Label>
@@ -238,7 +239,7 @@ const FrmUsuario = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalEmail">
         <Form.Label>
           Correo:
         </Form.Label>
@@ -262,7 +263,7 @@ const FrmUsuario = () => {
             setClave(event.target.value)
           }}
           value={Clave}
-          type="number" placeholder="Clave" />
+          type="password" placeholder="Clave" />
         </Col>
       </Form.Group>
 
@@ -271,21 +272,21 @@ const FrmUsuario = () => {
             setEstadoValor(event.target.value)
           }} 
           
-          className="mb-3" controlId="formHorizontalPassword">
+          className="mb-3" controlId="formHorizontalState">
         <Form.Label>  
           Estado
         </Form.Label>
         <Col>
-        <select value={EstadoValor}
-        // onChange={(event) => 
-        //   setEstadoValor(event.target.value)
-        // }
+        <Form.Select value={EstadoValor}
+        onChange={(event) => 
+          setEstadoValor(event.target.value)
+        }
         >
 
     		<option value="1">Activo</option>
     		<option value="0">No Activo</option>
         
-   		</select>
+   		</Form.Select>
            </Col>
       </Form.Group>
       
@@ -321,12 +322,10 @@ const FrmUsuario = () => {
       
       (
         
-        <tr key={Usuario.IdUsuario}>
-         
+        <tr key={Usuario.idUsuario}>
         <td> {Usuario.Documento} </td>
-        <td> {Usuario.NombreCompleto} </td>
+        <td> {Usuario.NombreCompleto}</td>
         <td> {Usuario.Correo} </td>
-        <td> {Usuario.Clave} </td>
         <td> {Usuario.Estado} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">

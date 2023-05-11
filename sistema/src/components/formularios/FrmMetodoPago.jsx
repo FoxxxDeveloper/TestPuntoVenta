@@ -164,9 +164,6 @@ const FrmMetodoPago = () => {
           footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
         }) })
 
-
-
-
     } 
     })
 
@@ -188,9 +185,9 @@ const FrmMetodoPago = () => {
       
     <div className='contfrm2'>
       
-    <Form className='for '>
+    <Form className='for2'>
         <h3>Detalle Metodo de Pago</h3>
-      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalDesc">
         <Form.Label >
           Descripcion:
         </Form.Label>
@@ -204,7 +201,7 @@ const FrmMetodoPago = () => {
         </Col>
       </Form.Group>
 
-      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalPorc">
         <Form.Label >
           Porcentaje:
         </Form.Label>

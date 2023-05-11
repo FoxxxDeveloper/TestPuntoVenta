@@ -115,8 +115,8 @@ app.get("/usuarios",(req,res)=>{
 
 
 app.put("/updateusuario",(req,res)=>{
-    const Idusuario = req.body.Idusuario;
-    const Documento = req.body.Codigo;
+    const IdUsuario = req.body.IdUsuario;
+    const Documento = req.body.Documento;
     const NombreCompleto = req.body.NombreCompleto;
     const Correo = req.body.Correo;
     const Clave = req.body.Clave;
@@ -125,7 +125,7 @@ app.put("/updateusuario",(req,res)=>{
 
     if(Estado=="") {Estado=1}
     
-    db.query("update usuario set Documento=?, NombreCompleto=?, Correo=?, Clave=?,IdRol=?, Estado=? where idusuario = ?",[Documento,NombreCompleto,Correo,Clave,IdRol,Estado,Idusuario],
+    db.query("update usuario set Documento=?, NombreCompleto=?, Correo=?, Clave=?,IdRol=?, Estado=? where IdUsuario = ?",[Documento,NombreCompleto,Correo,Clave,IdRol,Estado,IdUsuario],
     (err,result)=>{
         if(err){
         console.log(err)
@@ -320,7 +320,7 @@ app.delete("/deletecliente/:id",(req,res)=>{
 
 
 app.post("/createproveedor",(req,res)=>{
-    const Documento = req.body.Codigo;
+    const Documento = req.body.Documento;
     const RazonSocial = req.body.RazonSocial;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
@@ -349,14 +349,12 @@ app.get("/proveedores",(req,res)=>{
 
 
 app.put("/updateproveedor",(req,res)=>{
-    const Idproveedor = req.body.Idproveedor;
-    const Documento = req.body.Codigo;
+    const Idproveedor = req.body.IdProveedor;
+    const Documento = req.body.Documento;
     const RazonSocial = req.body.RazonSocial;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
     const Estado = req.body.EstadoValor;
-
-    if(Estado=="") {Estado=1}
     
     db.query("update proveedor set Documento=?, RazonSocial=?, Correo=?, Telefono=?, Estado=? where idproveedor = ?",[Documento,RazonSocial,Correo,Telefono,Estado,Idproveedor],
     (err,result)=>{

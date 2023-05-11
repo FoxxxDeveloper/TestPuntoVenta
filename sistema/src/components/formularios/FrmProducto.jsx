@@ -22,14 +22,14 @@ const FrmProducto = () => {
   const [Codigo,setCodigo] = useState("");
   const [Nombre,setNombre] = useState("");
   const [Descripcion,setDescripcion] = useState("");
-  const [IdCategoria,setIdCategoria] = useState("");
+  const [IdCategoria,setIdCategoria] = useState(1);
   const [Stock,setStock] = useState(0);
   const [PrecioCompra,setPrecioCompra] = useState(0);
   const [PrecioVenta,setPrecioVenta] = useState(0);
   const [EstadoValor,setEstadoValor] = useState(1);
   const [productosList,setProductos] = useState([])
   const [editar,setEditar] = useState(false)
-
+  const [categoriasList,setCategorias] = useState([])
   
 
   const registrar = () =>{
@@ -49,8 +49,7 @@ const FrmProducto = () => {
     Codigo:Codigo,
     Nombre:Nombre,
     Descripcion:Descripcion,
-    //IdCategoria:IdCategoria,
-    IdCategoria:1,
+    IdCategoria:IdCategoria,
     Stock:Stock,
     PrecioCompra:PrecioCompra,
     PrecioVenta:PrecioVenta,
@@ -87,7 +86,7 @@ const FrmProducto = () => {
     setCodigo("")
     setNombre("")
     setDescripcion("")
-    setIdCategoria("")
+    setIdCategoria(1)
     setStock(0)
     setPrecioCompra(0)
     setPrecioVenta(0)
@@ -111,7 +110,11 @@ const FrmProducto = () => {
     
   }
  
-  
+  const listarCategorias = () =>{
+    Axios.get("http://localhost:3001/categorias").then((response)=>{
+      setCategorias(response.data)
+    })
+  }
 
   const updateProducto = () =>{
 
@@ -131,8 +134,7 @@ const FrmProducto = () => {
     Codigo:Codigo,
     Nombre:Nombre,
     Descripcion:Descripcion,
-    //IdCategoria:IdCategoria,
-    IdCategoria:1,
+    IdCategoria:IdCategoria,
     Stock:Stock,
     PrecioCompra:PrecioCompra,
     PrecioVenta:PrecioVenta,
@@ -207,8 +209,8 @@ const FrmProducto = () => {
     
   }
 
-
   listar()
+  listarCategorias()
 
   return (
     
@@ -235,7 +237,7 @@ const FrmProducto = () => {
         </Col>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalName">
         <Form.Label>
           Nombre:
         </Form.Label>
@@ -249,7 +251,7 @@ const FrmProducto = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalDesc">
         <Form.Label>
           Descripción:
         </Form.Label>
@@ -263,7 +265,7 @@ const FrmProducto = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalPrice">
         <Form.Label>
           Precio Compra:
         </Form.Label>
@@ -277,7 +279,7 @@ const FrmProducto = () => {
         </Col>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalPriceV">
         <Form.Label >
           Precio Venta:
         </Form.Label>
@@ -291,7 +293,7 @@ const FrmProducto = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalStock">
         <Form.Label >
           Stock
         </Form.Label>
@@ -306,24 +308,51 @@ const FrmProducto = () => {
       </Form.Group>
       <fieldset>
       <Form.Group onChange={(event) => {
+            setIdCategoria(event.target.value)
+          }} 
+          
+          className="mb-3" controlId="formHorizontalCategory">
+        <Form.Label>  
+          Categoria
+        </Form.Label>
+        <Col>
+        <Form.Select value={IdCategoria}
+        onChange={(event) => 
+          setIdCategoria(event.target.value)
+        }
+        >
+             {categoriasList.map((categoria) =>
+      
+              (
+              <option key={categoria.IdCategoria} value={categoria.IdCategoria}>{categoria.Descripcion}</option>
+            ))}
+    		
+        
+   		</Form.Select>
+           </Col>
+      </Form.Group>
+      
+      </fieldset>
+
+      <fieldset>
+      <Form.Group onChange={(event) => {
             setEstadoValor(event.target.value)
           }} 
           
-          className="mb-3" controlId="formHorizontalPassword">
+          className="mb-3" controlId="formHorizontalState">
         <Form.Label>  
           Estado
         </Form.Label>
         <Col>
-        <select value={EstadoValor}
-        // onChange={(event) => 
-        //   setEstadoValor(event.target.value)
-        // }
+        <Form.Select value={EstadoValor}
+          onChange={(event) => 
+          setEstadoValor(event.target.value)
+        }
         >
+          <option value="1">Activo</option>
+    		  <option value="0">No Activo</option>
 
-    		<option value="1">Activo</option>
-    		<option value="0">No Activo</option>
-        
-   		</select>
+   		</Form.Select>
            </Col>
       </Form.Group>
       
@@ -363,7 +392,7 @@ const FrmProducto = () => {
       
       (
         
-        <tr key={producto.idProducto}>
+        <tr key={producto.IdProducto}>
          
         <td> {producto.Codigo} </td>
         <td> {producto.Nombre} </td>

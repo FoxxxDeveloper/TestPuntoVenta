@@ -168,11 +168,6 @@ const FrmCategoria = () => {
 
     } 
     })
-
-
-
-
-    
   }
 
 
@@ -187,9 +182,9 @@ const FrmCategoria = () => {
       
     <div className='contfrm2'>
       
-    <Form className='for '>
+    <Form className='for2'>
         <h3>Detalle Categoria</h3>
-      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalDesc">
         <Form.Label >
           Descripcion:
         </Form.Label>
@@ -207,21 +202,21 @@ const FrmCategoria = () => {
             setEstadoValor(event.target.value)
           }} 
           
-          className="mb-3" controlId="formHorizontalPassword">
+          className="mb-3" controlId="formHorizontalState">
         <Form.Label>  
           Estado
         </Form.Label>
         <Col>
-        <select value={EstadoValor}
-        // onChange={(event) => 
-        //   setEstadoValor(event.target.value)
-        // }
+        <Form.Select value={EstadoValor}
+        onChange={(event) => 
+          setEstadoValor(event.target.value)
+        }
         >
 
     		<option value="1">Activo</option>
     		<option value="0">No Activo</option>
         
-   		</select>
+   		</Form.Select>
            </Col>
       </Form.Group>
       
@@ -255,7 +250,7 @@ const FrmCategoria = () => {
       
       (
         
-        <tr key={categoria.idCategoria}>
+        <tr key={categoria.IdCategoria}>
         <td> {categoria.Descripcion} </td>
         <td> {categoria.Estado} </td>
         <td style={{width:"110px"}}>

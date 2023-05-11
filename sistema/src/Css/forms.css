@@ -3,10 +3,17 @@
     position: sticky;
     margin-left: 10px;
     margin-right: 50px;
-    width: 850px;    
+    width: 450px;    
+}
+.for2 {
+    position: sticky;
+    margin-left: 10px;
+    margin-right: 50px;
+    width: 1150px;    
 }
 .contfrm {
     display: flex;
+    width: 1500px;
 }
 .contfrm2 {
     display: flex;

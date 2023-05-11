@@ -9,7 +9,6 @@ import {
   import 'bootstrap/dist/css/bootstrap.min.css';
   import "@fortawesome/fontawesome-free/css/all.min.css";
 
-  
   const Footer = () => {
  
 
@@ -29,20 +28,16 @@ import {
           </MDBCol>
 
           <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contacto</h6>
-              <p>
-                <MDBIcon color='secondary' icon='home' className='me-2' />
+              <h5 className='text-uppercase fw-bold mb-4'>Contacto</h5>
+              <p style={{fontSize:'20px'}}>
+             
+                <MDBIcon  icon='home' className='me-2' size='lg' />
                 Tucumán - Argentina
               </p>
-              <p>
-                <MDBIcon color='secondary' icon='envelope' className='me-3' />
-                deoxysmu00@gmail.com
-              </p>
-              <p>
-                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 54 9 3814031834
-              </p>
-              <a href="https://instagram.com/fox._developer/"><p style={{color: 'white'}}>
-                <MDBIcon fab color='secondary' icon='instagram' className='me-3' /> Fox Developer
+              <p tyle={{fontSize:'20px'}}> <MDBIcon icon='envelope' className='me-3'size='lg' /> deoxysmu00@gmail.com </p>
+              <p tyle={{fontSize:'20px'}}> <MDBIcon icon='phone' className='me-3' size='lg' /> + 54 9 3814031834 </p>
+              <a href="https://instagram.com/fox._developer/"><p  style={{color: 'white', fontSize:'20px'}}>
+                <MDBIcon fab  icon='instagram' className='me-3' size='lg'/> Fox Developer
               </p></a> 
             </MDBCol>
         </MDBRow>

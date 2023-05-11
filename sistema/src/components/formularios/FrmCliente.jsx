@@ -204,7 +204,7 @@ const FrmCliente = () => {
       
     <Form className='for '>
         <h3>Detalle Cliente</h3>
-      <Form.Group className="mb-3 " controlId="formHorizontalEmail">
+      <Form.Group className="mb-3 " controlId="formHorizontalDoc">
         <Form.Label column sm={2}>
           Documento:
         </Form.Label>
@@ -218,7 +218,7 @@ const FrmCliente = () => {
         </Col>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalName">
         <Form.Label>
           Nombre Completo:
         </Form.Label>
@@ -232,7 +232,7 @@ const FrmCliente = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalEmail">
         <Form.Label>
           Correo:
         </Form.Label>
@@ -246,7 +246,7 @@ const FrmCliente = () => {
         </Col>
       </Form.Group>
       
-      <Form.Group className="mb-3" controlId="formHorizontalPassword">
+      <Form.Group className="mb-3" controlId="formHorizontalTel">
         <Form.Label>
           Telefono:
         </Form.Label>
@@ -265,21 +265,21 @@ const FrmCliente = () => {
             setEstadoValor(event.target.value)
           }} 
           
-          className="mb-3" controlId="formHorizontalPassword">
+          className="mb-3" controlId="formHorizontalState">
         <Form.Label>  
           Estado
         </Form.Label>
         <Col>
-        <select value={EstadoValor}
-        // onChange={(event) => 
-        //   setEstadoValor(event.target.value)
-        // }
+        <Form.Select value={EstadoValor}
+        onChange={(event) => 
+          setEstadoValor(event.target.value)
+        }
         >
 
     		<option value="1">Activo</option>
     		<option value="0">No Activo</option>
         
-   		</select>
+   		</Form.Select>
            </Col>
       </Form.Group>
       
