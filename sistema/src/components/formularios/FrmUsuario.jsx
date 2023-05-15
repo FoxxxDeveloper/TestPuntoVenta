@@ -173,7 +173,7 @@ const FrmUsuario = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteUsuario/"+Usuario.idUsuario)
+      Axios.delete("http://localhost:3001/deleteUsuario/"+Usuario.IdUsuario)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
