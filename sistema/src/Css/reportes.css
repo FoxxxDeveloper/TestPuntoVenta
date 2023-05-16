@@ -1,4 +1,4 @@
-.info{
+.info2{
     display: flex;
     flex-wrap: wrap;
 }
@@ -10,16 +10,16 @@
     margin-left: 5px;
     height: 85px;
 }
-.infocli{
-    width: 600px;
+.infoventa{
+    width: 500px;
     border-color: #aaaaaa;
     border-width: 1px;
     border-style: solid;
-    margin-left: 10px;
-    height: 85px;
+    margin-left: 705px;
+    height: 80px;
 }
-.infoproducto{
-    width: 1050px;
+.infoproducto2{
+    width: 1200px;
     border-color: #aaaaaa;
     border-width: 1px;
     border-style: solid;
@@ -27,7 +27,7 @@
     height: 85px;
     margin-top: 10px;
 }
-.cont
+.cont2
 {
     width: 1220px;
     margin-left: 120px;
@@ -36,14 +36,8 @@
     border-style: solid;
 }
 
-.interacciones{
-    margin-left: 5px;  
-    margin-top: 10px; 
-    width: 150px;
-    height: 500px;
-}
 
-.listprod {
+.listprod2 {
     width: 1050px;
     margin-left: 5px;
     margin-top: 10px;

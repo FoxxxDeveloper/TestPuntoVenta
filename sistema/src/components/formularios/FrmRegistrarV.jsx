@@ -162,8 +162,8 @@ const FrmRegistrarV = () => {
       </div>
       </div>
       <div className='interacciones'>
-      <ButtonGroup aria-label="Basic example"> <Button style={{width:'80px', height:'80px'}} variant='success'> <MDBIcon far icon="plus-square" size='2x' />Agregar</Button>  </ButtonGroup>
-      <Form style={{display:'flex'}}>
+      <ButtonGroup aria-label="Basic example"> <Button style={{width:'80px', height:'80px', marginLeft:'35px'}} variant='success'> <MDBIcon far icon="plus-square" size='2x' />Agregar</Button>  </ButtonGroup>
+      <Form style={{marginLeft:'10px'}}>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
         <Form.Label column sm="8">
           Metodo de Pago:
@@ -184,6 +184,18 @@ const FrmRegistrarV = () => {
    		</Form.Select>
            </Col>
       </Form.Group>
+
+
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>SubTotal</Form.Label>
+        <Form.Control type="text" placeholder="SubTotal" disabled readOnly />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Total</Form.Label>
+        <Form.Control type="text" placeholder="Total" disabled readOnly />
+      </Form.Group>
+      <ButtonGroup aria-label="Basic example"> <Button style={{width:'130px', height:'50px', display: 'flex', marginTop:'50px'}} variant='primary'> <MDBIcon style={{marginRight:'10px'}} far icon="plus-square" size='2x'/>Registrar</Button>  </ButtonGroup>
     </Form>
       
       </div>
