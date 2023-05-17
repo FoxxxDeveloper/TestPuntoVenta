@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import '../../Css/forms.css'
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import Axios from 'axios';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -26,7 +26,9 @@ const FrmProveedor = () => {
   const [EstadoValor,setEstadoValor] = useState(1);
   const [ProveedorList,setProveedors] = useState([])
   const [editar,setEditar] = useState(false)
-
+  const [tablaProveedores,setTablaProveedores] = useState([])
+  const [filtro,setFiltro] = useState("Documento");
+  const [busqueda,setBusqueda] = useState("")
   
 
   const registrar = () =>{
@@ -69,9 +71,10 @@ const FrmProveedor = () => {
     }
   }
 
-  const listar = () =>{
-    Axios.get("http://localhost:3001/Proveedores").then((response)=>{
+  const listar = async () =>{
+  await  Axios.get("http://localhost:3001/Proveedores").then((response)=>{
       setProveedors(response.data)
+      setTablaProveedores(response.data)
     })
   }
 
@@ -192,7 +195,24 @@ const FrmProveedor = () => {
   }
 
 
-  listar()
+  const handleChange=e=> {
+    setBusqueda(e.target.value)
+    filtrar(e.target.value, filtro)
+  }
+
+  const filtrar=(cadenaBusqueda, filtro)=>{
+    var resultadosBusqueda=tablaProveedores.filter((elemento)=>{
+      if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
+        return elemento;
+      }
+      return 0;
+    })
+    setProveedors(resultadosBusqueda)
+  }
+
+  useEffect(()=>{
+    listar()
+  },[])
 
   return (
     
@@ -200,7 +220,37 @@ const FrmProveedor = () => {
 
     <Header/>
       
+    <div>
+      <Form>
+      <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+        <Form.Label style={{marginLeft:'920px'}} column sm="2">
+         Buscar por:
+        </Form.Label>
+        
+      </Form.Group>
+
+      <Form.Group style={{marginTop:'-18px'}} as={Row} className="mb-3" controlId="formPlaintextPassword">
+                            <Col >
+                             <Form.Select onChange={(event) => 
+                                setFiltro(event.target.value)
+                                        }
+                               style={{width:'200px', marginLeft:'920px'}} >
+                                <option  value='Documento' >Documento</option> 
+                                <option  value='RazonSocial' >Razon Social</option> 
+                                <option  value='Correo' >Correo</option> 
+                                <option  value='Telefono' >Telefono</option> 
+                                 <option  value='Estado' >Estado</option> 
+                                
+                                
+   	                          </Form.Select>
+                             </Col>
+    
+                             <Form.Control value={busqueda} style={{width:'220px', marginRight:'420px'}} type='text' placeholder='Texto a buscar' onChange={handleChange} />
+        </Form.Group>
       
+    </Form>
+
+      </div>         
     <div className='contfrm3'>
       
     <Form className='for '>

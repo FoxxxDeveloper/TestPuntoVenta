@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import '../../Css/forms.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -27,11 +27,12 @@ const FrmProducto = () => {
   const [PrecioCompra,setPrecioCompra] = useState(0);
   const [PrecioVenta,setPrecioVenta] = useState(0);
   const [EstadoValor,setEstadoValor] = useState(1);
-  const [productosList,setProductos] = useState([])
+  const [Productos,setProductos] = useState([])
+  const [tablaProductos,setTablaProductos] = useState([])
   const [editar,setEditar] = useState(false)
   const [categoriasList,setCategorias] = useState([])
-  
-
+  const [busqueda,setBusqueda] = useState("")
+  const [filtro,setFiltro] = useState("Codigo")
   const registrar = () =>{
 
     
@@ -75,9 +76,10 @@ const FrmProducto = () => {
     }
   }
 
-  const listar = () =>{
-    Axios.get("http://localhost:3001/productos").then((response)=>{
+  const listar =async () =>{
+   await Axios.get("http://localhost:3001/productos").then((response)=>{
       setProductos(response.data)
+      setTablaProductos(response.data)
     })
   }
 
@@ -209,15 +211,66 @@ const FrmProducto = () => {
     
   }
 
-  listar()
+  const handleChange=e=> {
+    setBusqueda(e.target.value)
+    filtrar(e.target.value, filtro)
+  }
+
+  const filtrar=(cadenaBusqueda, filtro)=>{
+    var resultadosBusqueda=tablaProductos.filter((elemento)=>{
+      if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
+        return elemento;
+      }
+      return 0;
+    })
+    setProductos(resultadosBusqueda)
+  }
+
+  useEffect(()=>{
+    listar()
+  },[])
+   
   listarCategorias()
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
+    <div>
+      <Form>
+      <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+        <Form.Label style={{marginLeft:'920px'}} column sm="2">
+         Buscar por:
+        </Form.Label>
+        
+      </Form.Group>
+
+      <Form.Group style={{marginTop:'-18px'}} as={Row} className="mb-3" controlId="formPlaintextPassword">
+                            <Col >
+                             <Form.Select onChange={(event) => 
+                                setFiltro(event.target.value)
+                                        }
+                               style={{width:'200px', marginLeft:'920px'}} >
+                                <option  value='Codigo' >Codigo</option> 
+                                <option  value='Nombre' >Nombre</option> 
+                                <option  value='Descripcion' >Descripcion</option> 
+                                <option  value='DescripcionCategoria' >Categoria</option> 
+                                <option  value='Stock' >Stock</option> 
+                                <option  value='PrecioCompra' >Precio Compra</option> 
+                                <option  value='PrecioVenta' >Precio Venta</option> 
+                                <option  value='Estado' >Estado</option> 
+                                
+                                
+   	                          </Form.Select>
+                             </Col>
+    
+                             <Form.Control value={busqueda} style={{width:'220px', marginRight:'420px'}} type='text' placeholder='Texto a buscar' onChange={handleChange} />
+         </Form.Group>
       
+    </Form>
+
+      </div>                                        
       
     <div className='contfrm'>
       
@@ -372,6 +425,7 @@ const FrmProducto = () => {
           
       </Form.Group>
     </Form>
+    
     {/* <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button> */}
     <Table striped bordered hover variant="dark" size="sm" style={{width:"1400px"}} className='dgv '>
     <thead>
@@ -388,7 +442,7 @@ const FrmProducto = () => {
       </tr>
     </thead>
     <tbody>
-      {productosList.map((producto) =>
+      {Productos.map((producto) =>
       
       (
         
