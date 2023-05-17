@@ -16,28 +16,30 @@ import FrmReporteV from './components/formularios/FrmReporteV';
 import FrmVerDetalleC from './components/formularios/FrmVerDetalleC';
 import FrmVerDetalleV from './components/formularios/FrmVerDetalleV';
 import FrmUsuario from './components/formularios/FrmUsuario';
+import mdProducto from './components/modales/mdProducto';
 import Login from './pages/Login';
+import {login, home, categoria, cliente, codigobarra, metodopago, negocio, producto, proveedor, registrocompra, registroventa, reportecompra, reporteventa, usuario, detalleventa, detallecompra, testmodal} from "./Routes/myRoutes"
 function App() {
   return (
     <BrowserRouter>
     <Routes>
-    <Route path="/" element={<Login />} />
-    <Route path="/Inicio" element={<Home/>} />
-    <Route path="/Categoria" element={<FrmCategoria />} />
-    <Route path="/Cliente" element={<FrmCliente />} />
-    <Route path="/CodigoBarra" element={<FrmCodigoBarra />} />
-    <Route path="/MetodoPago" element={<FrmMetodoPago />} />
-    <Route path="/Negocio" element={<FrmNegocio />} />
-    <Route path="/Producto" element={<FrmProducto />} />
-    <Route path="/Proveedor" element={<FrmProveedor />} />
-    <Route path="/Registro_Compra" element={<FrmRegistrarC />} />
-    <Route path="/Registro_Venta" element={<FrmRegistrarV />} />
-    <Route path="/Reporte_Compra" element={<FrmReporteC />} />
-    <Route path="/Reporte_Venta" element={<FrmReporteV />} />
-    <Route path="/Usuario" element={<FrmUsuario />} />
-    <Route path="/Detalle_Venta" element={<FrmVerDetalleV />} />
-    <Route path="/Detalle_Compra" element={<FrmVerDetalleC />} />
-
+    <Route path={login} element={<Login />} />
+    <Route path={home} element={<Home/>} />
+    <Route path={categoria} element={<FrmCategoria />} />
+    <Route path={cliente} element={<FrmCliente />} />
+    <Route path={codigobarra} element={<FrmCodigoBarra />} />
+    <Route path={metodopago} element={<FrmMetodoPago />} />
+    <Route path={negocio} element={<FrmNegocio />} />
+    <Route path={producto} element={<FrmProducto />} />
+    <Route path={proveedor} element={<FrmProveedor />} />
+    <Route path={registrocompra} element={<FrmRegistrarC />} />
+    <Route path={registroventa} element={<FrmRegistrarV />} />
+    <Route path={reportecompra} element={<FrmReporteC />} />
+    <Route path={reporteventa} element={<FrmReporteV />} />
+    <Route path={usuario} element={<FrmUsuario />} />
+    <Route path={detalleventa} element={<FrmVerDetalleV />} />
+    <Route path={detallecompra} element={<FrmVerDetalleC />} />
+    <Route path={testmodal} element={<mdProducto/>} />
     {/* <Route path="/contact" component={ContactPage} /> */}
     </Routes>
   </BrowserRouter>

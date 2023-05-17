@@ -394,6 +394,7 @@ app.delete("/deleteproveedor/:id",(req,res)=>{
 
 
 
+//    //   //   // CRUD DE COMPRAS  //    //   //   //
 
 
 
