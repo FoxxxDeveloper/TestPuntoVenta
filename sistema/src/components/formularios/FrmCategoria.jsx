@@ -175,7 +175,7 @@ const FrmCategoria = () => {
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
       

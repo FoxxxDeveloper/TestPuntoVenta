@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {useNavigate} from 'react-router-dom'
+import '../Css/registros.css'
 const Header = () => {
 
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ const Header = () => {
     <>
       
       <br />
-      <Navbar bg="primary" variant="dark">
+      <Navbar className="navbar" variant="light">
         <Container>
           <Navbar.Brand onClick={() => navigate('/Inicio')}>Inicio</Navbar.Brand>
           <Nav className="me-auto">

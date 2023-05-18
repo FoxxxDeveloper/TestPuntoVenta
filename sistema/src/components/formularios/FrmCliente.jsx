@@ -214,7 +214,7 @@ const FrmCliente = () => {
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
       

@@ -12,7 +12,7 @@ const FrmVerDetalleV = () => {
 
 
   return (
-    <div>
+    <div className='divgeneral'>
       <Header/>
       
       <h2 style={{marginLeft:'120px'}}>Detalle Venta</h2>

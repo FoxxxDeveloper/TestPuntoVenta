@@ -17,7 +17,7 @@ const FrmRegistrarC = () => {
 
 
   return (
-    <div>
+    <div className='divgeneral'>
       <Header/>
       
       <h2 style={{marginLeft:'120px'}}>Registrar Compra</h2>

@@ -208,7 +208,7 @@ const FrmUsuario = () => {
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
       

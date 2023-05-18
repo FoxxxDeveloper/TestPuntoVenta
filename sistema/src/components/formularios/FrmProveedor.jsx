@@ -216,7 +216,7 @@ const FrmProveedor = () => {
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
       

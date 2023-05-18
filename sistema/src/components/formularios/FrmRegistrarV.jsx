@@ -27,7 +27,7 @@ const FrmRegistrarV = () => {
   const [MetodoPagosList,setMetodoPagos] = useState([])
 
   return (
-    <div>
+    <div className='divgeneral'>
       <Header/>
       
       <h2 style={{marginLeft:'120px'}}>Registrar Venta</h2>

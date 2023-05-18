@@ -4,16 +4,24 @@
     margin-left: 10px;
     margin-right: 50px;
     width: 450px;    
+    box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75);
+    
 }
 .for2 {
     position: sticky;
     margin-left: 10px;
     margin-right: 50px;
-    width: 1150px;    
+    width: 1150px;   
+    box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px -6px 5px 0px rgba(0,0,0,0.75); 
 }
 .contfrm {
     display: flex;
     width: 1500px;
+    
 }
 .contfrm2 {
     display: flex;
@@ -25,5 +33,6 @@
     width: 1500px;
 }
 .divgeneral{
-    background-color: #44a1f8;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
 }

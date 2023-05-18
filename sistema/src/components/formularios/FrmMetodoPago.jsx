@@ -178,7 +178,7 @@ const FrmMetodoPago = () => {
 
   return (
     
-    <div>
+    <div className='divgeneral'>
 
     <Header/>
       

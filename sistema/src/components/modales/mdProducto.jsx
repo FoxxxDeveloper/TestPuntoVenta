@@ -53,7 +53,7 @@ const MdProducto = () => {
 
   return (
     
-    <div style={{width:'1200px'}}>
+    <div style={{width:'1200px'}} className='divgeneral'>
     <div >
       <Form s>
       <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">

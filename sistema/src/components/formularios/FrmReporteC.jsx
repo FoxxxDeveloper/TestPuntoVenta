@@ -23,7 +23,7 @@ const FrmReporteC = () => {
   const [ProveedoresList,setProveedores] = useState([])
 
   return (
-    <div>
+    <div className='divgeneral'>
       <Header/>
       
       <h2 style={{marginLeft:'120px'}}>Reporte Compras</h2>

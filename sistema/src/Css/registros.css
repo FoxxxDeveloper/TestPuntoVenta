@@ -34,6 +34,10 @@
     border-color: #aaaaaa;
     border-width: 1px;
     border-style: solid;
+    box-shadow: 1px 1px 11px 5px rgba(0,0,0,0.75);
+-webkit-box-shadow: 1px 1px 11px 5px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px 1px 11px 5px rgba(0,0,0,0.75);
+margin-bottom: 10px;
 }
 
 .interacciones{
@@ -41,6 +45,9 @@
     margin-top: 10px; 
     width: 150px;
     height: 500px;
+    border-color: #aaaaaa;
+    border-width:1px;
+    border-style: solid;
 }
 
 .listprod {
@@ -48,4 +55,21 @@
     margin-left: 5px;
     margin-top: 10px;
     height: 100px;
+}
+.navbar{
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
+-webkit-box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
+}
+
+
+
+.foot{
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
+-webkit-box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px 10px 13px 8px rgba(0,0,0,0.75);
 }
