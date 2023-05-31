@@ -8,13 +8,18 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { MDBIcon} from 'mdb-react-ui-kit';
+import { useState} from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import MdProveedor from '../modales/MdProveedor';
+import MdProducto from '../modales/MdProducto';
 const FrmRegistrarC = () => {
   const fecha = new Date();
   const dia = fecha.getDate() 
   const mes=fecha.getMonth()+1
   const anio=fecha.getFullYear()
 
+  const [estadoModalP, setEstadoModalP] = useState(false)
+  const [estadoModalPr, setEstadoModalPr] = useState(false)
 
   return (
     <div className='divgeneral'>
@@ -55,7 +60,7 @@ const FrmRegistrarC = () => {
         <Col sm="4">
           <Form.Control type='text' value="0" disabled readOnly />
         </Col>
-        <Button style={{width:'50px'}} variant="primary"> <MDBIcon fas icon="search" /></Button>
+        <Button onClick={()=> setEstadoModalPr(true)} style={{width:'50px'}} variant="primary"> <MDBIcon fas icon="search" /></Button>
         <Col sm="7">
           <Form.Control type='text' value="Razón Social" disabled readOnly />
         </Col>
@@ -95,7 +100,7 @@ const FrmRegistrarC = () => {
         <Col sm="2">
           <Form.Control type='text' placeholder="Producto" disabled readOnly />
         </Col>
-        <Button style={{width:'50px'}} variant="primary"> <MDBIcon fas icon="search" /></Button>
+        <Button  onClick={()=> setEstadoModalP(true)} style={{width:'50px'}} variant="primary"> <MDBIcon fas icon="search" /></Button>
         <Col sm="2">
           <Form.Control type='number' placeholder="Precio Compra" />
         </Col>
@@ -166,6 +171,9 @@ const FrmRegistrarC = () => {
 
 
     <Footer/>
+        <MdProveedor  titulo='Proveedores' estado={estadoModalPr} setEstadoModalPr={setEstadoModalPr}></MdProveedor>
+        <MdProducto titulo='Productos' estado={estadoModalP} setEstadoModalP={setEstadoModalP}></MdProducto>
+
     </div>
   )
 }

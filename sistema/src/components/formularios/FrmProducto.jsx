@@ -56,7 +56,7 @@ const FrmProducto = () => {
     PrecioVenta:PrecioVenta,
     EstadoValor:EstadoValor
     }).then(()=>{
-      
+      listar()
       noti.fire({
         title: <strong>¡Operacion exitosa!</strong>,
         html: <i>El producto <strong>{Nombre}</strong> ha sido agregado correctamente</i>,

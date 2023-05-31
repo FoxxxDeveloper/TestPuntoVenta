@@ -11,20 +11,20 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {MDBIcon} from 'mdb-react-ui-kit';
 import Modals from './Modals';
 
-const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) => {
+const MdProveedor = ({ titulo, estado, setEstadoModalPr }) => {
 
  
-  const [Productos,setProductos] = useState([])
-  const [tablaProductos,setTablaProductos] = useState([])
+  const [Proveedores,setProveedores] = useState([])
+  const [tablaProveedores,setTablaProveedores] = useState([])
   const [busqueda,setBusqueda] = useState("")
-  const [filtro,setFiltro] = useState("Codigo")
+  const [filtro,setFiltro] = useState("Documento")
   
 
 
   const listar =async () =>{
-   await Axios.get("http://localhost:3001/productos").then((response)=>{
-      setProductos(response.data)
-      setTablaProductos(response.data)
+   await Axios.get("http://localhost:3001/Proveedores").then((response)=>{
+    setProveedores(response.data)
+    setTablaProveedores(response.data)
     })
   }
 
@@ -37,13 +37,13 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
   }
 
   const filtrar=(cadenaBusqueda, filtro)=>{
-    var resultadosBusqueda=tablaProductos.filter((elemento)=>{
+    var resultadosBusqueda=tablaProveedores.filter((elemento)=>{
       if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
         return elemento;
       }
       return 0;
     })
-    setProductos(resultadosBusqueda)
+    setProveedores(resultadosBusqueda)
   }
 
   useEffect(()=>{
@@ -53,7 +53,7 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
 
   return (
     
-      <Modals titulo={titulo} estado= {estado} setEstadoModal= {setEstadoModalP}>
+      <Modals titulo={titulo} estado= {estado} setEstadoModal= {setEstadoModalPr}>
 
 
     <div style={{width:'1200px', position:'relative'}} className='divgeneral'>
@@ -74,14 +74,12 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
                                 setFiltro(event.target.value)
                                         }
                                style={{width:'200px', marginLeft:'620px'}} >
-                                <option  value='Codigo' >Codigo</option> 
-                                <option  value='Nombre' >Nombre</option> 
-                                <option  value='Descripcion' >Descripcion</option> 
-                                <option  value='DescripcionCategoria' >Categoria</option> 
-                                <option  value='Stock' >Stock</option> 
-                                <option  value='PrecioCompra' >Precio Compra</option> 
-                                <option  value='PrecioVenta' >Precio Venta</option> 
-                                <option  value='Estado' >Estado</option> 
+                                 <option  value='Documento' >Documento</option> 
+                                <option  value='RazonSocial' >Razon Social</option> 
+                                <option  value='Correo' >Correo</option> 
+                                <option  value='Telefono' >Telefono</option> 
+                                 <option  value='Estado' >Estado</option> 
+                                
                                 
                                 
    	                          </Form.Select>
@@ -99,34 +97,30 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
     {/* <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button> */}
     <Table striped bordered hover variant="dark" size="sm" style={{width:"1200px"}} className='dgv '>
     <thead>
-      <tr>
-        <th>Codigo</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Categoria</th>
-        <th>Stock</th>
-        <th>Precio Compra</th>
-        <th>Precio Venta</th>
+    <tr>
+        <th>Documento</th>
+        <th>Razon Social</th>
+        <th>Correo</th>
+        <th>Telefono</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      {Productos.map((producto) =>
+      {Proveedores.map((Proveedor) =>
       
       (
         
-        <tr key={producto.IdProducto}>
+        <tr key={Proveedor.IdProveedor}>
          
-        <td> {producto.Codigo} </td>
-        <td> {producto.Nombre} </td>
-        <td> {producto.Descripcion} </td>
-        <td> {producto.DescripcionCategoria} </td>
-        <td> {producto.Stock} </td>
-        <td> {producto.PrecioCompra} </td>
-        <td> {producto.PrecioVenta} </td>
-        <td style={{width:"75px"}}>
+        <td> {Proveedor.Documento} </td>
+        <td> {Proveedor.RazonSocial} </td>
+        <td> {Proveedor.Correo} </td>
+        <td> {Proveedor.Telefono} </td>
+        <td> {Proveedor.Estado} </td>
+        <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
-          <Button onClick={() => seleccionarProducto(producto)}  ><MDBIcon fas icon="check-square" /></Button>
+          <Button  ><MDBIcon fas icon="check-square" /></Button>
          </ButtonGroup>
           
         </td>
@@ -145,5 +139,5 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
   
 }
 
-export default MdProducto
+export default MdProveedor
 

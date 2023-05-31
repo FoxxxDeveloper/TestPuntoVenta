@@ -16,9 +16,10 @@ import FrmReporteV from './components/formularios/FrmReporteV';
 import FrmVerDetalleC from './components/formularios/FrmVerDetalleC';
 import FrmVerDetalleV from './components/formularios/FrmVerDetalleV';
 import FrmUsuario from './components/formularios/FrmUsuario';
-import MdProducto from './components/modales/MdProducto';
+import Modals from './components/modales/Modals';
 import Login from './pages/Login';
 import {login, home, categoria, cliente, codigobarra, metodopago, negocio, producto, proveedor, registrocompra, registroventa, reportecompra, reporteventa, usuario, detalleventa, detallecompra, testmodal} from "./Routes/myRoutes"
+import MdProducto from './components/modales/MdProducto';
 function App() {
   return (
     <BrowserRouter>
@@ -39,7 +40,8 @@ function App() {
     <Route path={usuario} element={<FrmUsuario />} />
     <Route path={detalleventa} element={<FrmVerDetalleV />} />
     <Route path={detallecompra} element={<FrmVerDetalleC />} />
-    <Route path={testmodal} element={<MdProducto/>} />
+    <Route path={testmodal} element={<Modals/>} />
+    <Route path='/mdproducto' element={<MdProducto/>} />
     {/* <Route path="/contact" component={ContactPage} /> */}
     </Routes>
   </BrowserRouter>
