@@ -264,6 +264,7 @@ const FrmCliente = () => {
           }}
           value={Documento}
           type="string" placeholder="Documento" />
+          
         </Col>
       </Form.Group>
 

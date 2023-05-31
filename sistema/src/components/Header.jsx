@@ -1,6 +1,7 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -17,7 +18,12 @@ const Header = () => {
       
       <br />
       <Navbar className="navbar" variant="light">
+
+      <Button onClick={()=> {localStorage.clear()
+       navigate('/',{replace:true})
+      }} style={{marginLeft:"50px"}} variant="danger" >Salir</Button>
         <Container>
+          
           <Navbar.Brand onClick={() => navigate('/Inicio')}>Inicio</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate('/Usuario')}>Usuarios</Nav.Link>
@@ -48,7 +54,7 @@ const Header = () => {
               <Nav.Link onClick={() => navigate('/Cliente')}>Cliente</Nav.Link>
               <Nav.Link onClick={() => navigate('/Proveedor')}>Proveedor</Nav.Link>
               <Nav.Link onClick={() => navigate('/Negocio')}>Negocio</Nav.Link>
-
+              
           </Nav>
         </Container>
       </Navbar>

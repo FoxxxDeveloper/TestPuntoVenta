@@ -392,7 +392,31 @@ app.delete("/deleteproveedor/:id",(req,res)=>{
 });
 
 
+app.post("/api/login",(req,res)=>{
+    const Documento = req.body.Documento;
+    const Clave = req.body.Clave;
+    console.log(req.body)
+    db.query("select * from usuario where Documento = ? AND Clave = ?",[Documento,Clave],
+    (err,result)=>{
+       
+        if(err){
+        res.status(500).send(err)
+        
+    }else{
+       
+        if(result.length>0) {
+            res.status(200).send(result[0])
+        }
+        else{
+            
+            res.status(400).send('Documento y/o Clave incorrecta')
+        }
+    }
 
+    }
+    );
+
+});
 
 //    //   //   // CRUD DE COMPRAS  //    //   //   //
 

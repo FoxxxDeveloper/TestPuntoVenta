@@ -1,22 +1,53 @@
 import React from 'react'
 import {
-    MDBBtn,
     MDBContainer,
     MDBCard,
     MDBCardBody,
-    //MDBCardImage,
     MDBRow,
     MDBCol,
-    MDBInput,
-    //MDBCheckbox,
-    //MDBIcon
+    MDBInput
   }
   from 'mdb-react-ui-kit';
+  import {useState} from 'react'
   import fotoVent from '../assets/imgVenta.jpg'
   import 'bootstrap/dist/css/bootstrap.min.css';
   import "@fortawesome/fontawesome-free/css/all.min.css";
   import '../Css/loginfrm.css'
+  import axios from 'axios';
+  import {useNavigate} from 'react-router-dom'
+  import withReactContent from 'sweetalert2-react-content'
+  import Swal from 'sweetalert2'
+  import Button from 'react-bootstrap/Button';
 const Loginfrm = () => {
+  const noti = withReactContent(Swal)
+  
+  const [body, setBody] = useState({Documento:'', Clave:''})
+  const navigate = useNavigate()
+  const inputChange= ({target}) => {
+    const {name,value} = target
+    setBody({
+      ...body,
+      [name]:value
+    })
+  }
+
+
+  const onSubmit =() =>{
+    axios.post('http://localhost:3001/api/login',body)
+    .then(({data})=>{
+      localStorage.setItem('auth',"yes")
+      data.Documento=== '43226633'? localStorage.setItem('admin',"yes") : localStorage.setItem('admin',"no") 
+       navigate('/Inicio',{replace:true})
+    })
+    .catch (()=>{
+      noti.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se encontró el usuario!',
+        footer: 'Intente nuevamente, o contáctese con un administrador.'
+      }) 
+    })
+  }
   return (
     <MDBContainer fluid className='my-5 contain' >
 
@@ -28,19 +59,18 @@ const Loginfrm = () => {
 
               <h2 className="fw-bold mb-5">Inicio de sesión</h2>
 
-              <MDBInput wrapperClass='mb-4' label='Usuario' id='form3' type='email'/>
-              <MDBInput wrapperClass='mb-4' label='Contraseña' id='form4' type='password'/>
+              <MDBInput name='Documento' onChange={inputChange} value={body.Documento} wrapperClass='mb-4' label='Documento' id='form3' type='user'/>
+              <MDBInput name='Clave' onChange={inputChange} value={body.Clave} wrapperClass='mb-4' label='Contraseña' id='form4' type='password'/>
 
-              <MDBBtn className='w-100 mb-4' size='md' href='/Inicio'>Ingresar</MDBBtn>
-
+              <Button onClick={onSubmit} className='w-100 mb-4' variant="primary" >Ingresar</Button>
 
             </MDBCardBody>
           </MDBCard>
         </MDBCol>
 
         <MDBCol col='6'>
-          <img src={fotoVent} class="rounded-4 shadow-4 imglog"
-            alt="" fluid/>
+          <img src={fotoVent} className="rounded-4 shadow-4 imglog"
+            alt="FotoVenta"/>
         </MDBCol>
 
       </MDBRow>

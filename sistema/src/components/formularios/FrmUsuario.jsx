@@ -98,12 +98,12 @@ const FrmUsuario = () => {
 
   const editarUsuario = (val) =>{
     setEditar(true)
-    setIdUsuario(val.idUsuario)
+    setIdUsuario(val.IdUsuario)
     setDocumento(val.Documento)
     setNombreCompleto(val.NombreCompleto)
     setCorreo(val.Correo)
     setClave(val.Clave)
-    setIdRol(val.idRol)
+    setIdRol(val.IdRol)
     setEstadoValor(val.Estado)
     console.log(val)
     
@@ -356,7 +356,7 @@ const FrmUsuario = () => {
       
       (
         
-        <tr key={Usuario.idUsuario}>
+        <tr key={Usuario.IdUsuario}>
         <td> {Usuario.Documento} </td>
         <td> {Usuario.NombreCompleto}</td>
         <td> {Usuario.Correo} </td>
