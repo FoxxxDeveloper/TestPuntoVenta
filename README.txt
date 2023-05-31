@@ -2,7 +2,7 @@
  
  ***********   TAREAS PENDIENTES *************
 
-
+*Comentar todo el codigo por bloques de funciones 
 
 ///////////////        FRONT        ///////////////
 
@@ -13,6 +13,9 @@
 *Diseñar front de compra                                                        LISTO
 *Diseñar front de reporte de compras                                            LISTO
 *Diseñar front de detalles de compra                                            LISTO
+
+
+*Diseñar e implementar modales de productos/clientes/proveedores                LISTO
 
 *Diseñar front para modificar datos del negocio
 *Diseñar front y generador de códigos de barra
