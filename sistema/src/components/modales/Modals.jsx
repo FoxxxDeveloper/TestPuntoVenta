@@ -45,7 +45,7 @@ justify-content: center;
 
 const ContenedorModal = styled.div`
 min-height: 10px;
-max-height:960px;
+max-height:100vh;
 position:relative;
 background: #fff;
 border-radius: 5px;
