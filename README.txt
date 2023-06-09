@@ -24,7 +24,7 @@
 ///////////////        BACK        ///////////////
 *Realizar login
 *Realizar back de compras y ventas
-*Realizar back de reportes de ventas y compras
+*Realizar back de reportes de ventas y compras      
 *Realizar back de detalles de ventas y compras
 *Realizar back para el negocio
 

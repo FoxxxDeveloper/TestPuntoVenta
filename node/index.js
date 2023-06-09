@@ -10,7 +10,7 @@ const db=mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "698465xd00",
-    database:"dbsistema_venta"
+    database:"dbsistema_venta2"
 
 })
 
@@ -25,6 +25,26 @@ app.get("/roles",(req,res)=>{
     }});
 });
 
+
+app.get("/ventacorrelativa",(req,res)=>{
+    db.query("select count (*) +1 as 'ultimaventa' from VENTA",
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
+
+app.get("/compracorrelativa",(req,res)=>{
+    db.query("select count (*) +1 as 'ultimacompra' from COMPRA",
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
 
 
     //    //   //   // CRUD DE PRODUCTOS  //    //   //   //
@@ -418,9 +438,89 @@ app.post("/api/login",(req,res)=>{
 
 });
 
-//    //   //   // CRUD DE COMPRAS  //    //   //   //
+
+//    //   //   // CRUD DE VENTAS  //    //   //   //
 
 
+app.post("/createventa",(req,res)=>{
+    const idUsuario = req.body.idUsuario;
+    const idCliente = req.body.idCliente;
+    const TipoDocumento = req.body.TipoDocumento;
+    const NumeroDocumento = req.body.NumeroDocumento;
+    const MontoPago = req.body.MontoPago;
+    const MontoCambio = req.body.MontoCambio;
+    const MontoTotal = req.body.MontoTotal;
+    const MetodoPago = req.body.MetodoPago;
+   
+
+    db.query("insert into VENTA (idUsuario, idCliente, TipoDocumento, NumeroDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago) values (?,?,?,?,?,?,?,?)",[idUsuario,idCliente,TipoDocumento,NumeroDocumento,MontoPago,MontoCambio,MontoTotal,MetodoPago],
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }
+    });
+});
+
+app.post("/createventa",(req,res)=>{
+    const idUsuario = req.body.idUsuario;
+    const idCliente = req.body.idCliente;
+    const TipoDocumento = req.body.TipoDocumento;
+    const NumeroDocumento = req.body.NumeroDocumento;
+    const MontoPago = 0;
+    const MontoCambio = 0;
+    const MontoTotal = req.body.MontoTotal;
+    const MetodoPago = req.body.MetodoPago;
+  
+    console.log(req.body.TipoDocumento)
+
+    db.query("insert into VENTA (idUsuario, idCliente, TipoDocumento, NumeroDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago) values (?,?,?,?,?,?,?,?)",[idUsuario,idCliente,TipoDocumento,NumeroDocumento,MontoPago,MontoCambio,MontoTotal,MetodoPago],
+    (err,result)=>{
+
+
+        if(err){
+        console.log(err)
+    }else{
+
+
+        res.send(result)
+    }
+    });
+});
+
+
+app.post("/createdetalleventa",(req,res)=>{
+    const idVenta = req.body.idVenta;
+    const idProducto = req.body.idProducto;
+    const PrecioVenta = req.body.PrecioVenta;
+    const Cantidad = req.body.Cantidad;
+    const SubTotal = req.body.SubTotal;
+    
+   
+
+    db.query("insert into DETALLE_VENTA(idVenta, idProducto, PrecioVenta, Cantidad, SubTotal) values (?,?,?,?,?)",[idVenta,idProducto,PrecioVenta,Cantidad,SubTotal],
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }
+    });
+});
+
+app.put("/descontarstock",(req,res)=>{
+    const idProducto = req.body.idProducto;
+    const Cantidad = req.body.Cantidad;
+    
+    db.query("update producto set Stock=Stock-? where IdProducto = ?",[Cantidad,idProducto],
+    (err,result)=>{
+        if(err){
+        console.log(err)
+    }else{
+        res.send(result)
+    }});
+});
 
 
 app.listen(3001, ()=> {

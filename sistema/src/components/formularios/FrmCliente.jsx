@@ -210,7 +210,7 @@ const FrmCliente = () => {
 
   useEffect(()=>{
     listar()
-  },[])
+  },[clienteList])
 
   return (
     
@@ -372,7 +372,7 @@ const FrmCliente = () => {
         <td> {cliente.NombreCompleto} </td>
         <td> {cliente.Correo} </td>
         <td> {cliente.Telefono} </td>
-        <td> {cliente.Estado} </td>
+        <td> {cliente.Estado.data} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarCliente(cliente)}} ><MDBIcon fas icon="pencil-alt" /></Button>

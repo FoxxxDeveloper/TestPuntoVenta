@@ -117,7 +117,7 @@ const MdCliente = ({titulo, estado, setEstadoModalC,seleccionarCliente }) => {
         <td> {cliente.NombreCompleto} </td>
         <td> {cliente.Correo} </td>
         <td> {cliente.Telefono} </td>
-        <td> {cliente.Estado} </td>
+        <td> {cliente.Estado.data} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button  onClick={() => seleccionarCliente(cliente)}  ><MDBIcon fas icon="check-square" /></Button>

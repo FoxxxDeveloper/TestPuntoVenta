@@ -33,6 +33,7 @@ const Header = () => {
                 <NavDropdown.Item onClick={() => navigate('/Producto')}>Producto</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => navigate('/MetodoPago')}>Método de Pago</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => navigate('/CodigoBarra')}>Código de barra</NavDropdown.Item>
+                
               </NavDropdown>
 
               <NavDropdown title="Ventas" id="navbarScrollingDropdown">

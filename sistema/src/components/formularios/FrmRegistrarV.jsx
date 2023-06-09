@@ -13,22 +13,18 @@ import { useState, useEffect} from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import MdProducto from '../modales/MdProducto';
 import MdCliente from '../modales/MdCliente';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
+const noti = withReactContent(Swal)
 const FrmRegistrarV = () => {
-
-
   
   const fecha = new Date();
   const dia = fecha.getDate() 
   const mes=fecha.getMonth()+1
   const anio=fecha.getFullYear()
 
-  const listar = () =>{
-    Axios.get("http://localhost:3001/Metodo_Pagos").then((response)=>{
-      setMetodoPagos(response.data)
-    })
-    
-  }
+  
  
   const [MetodoPagosList,setMetodoPagos] = useState([])
   const [estadoModalP, setEstadoModalP] = useState(false)
@@ -37,15 +33,32 @@ const FrmRegistrarV = () => {
   const [IdProducto,setIdProducto] = useState(0);
   const [Codigo,setCodigo] = useState("");
   const [Nombre,setNombre] = useState("");
+  const [TipoDocumento,setTipoDocumento] = useState("Factura A");
+  const [MetodoPago,setMetodoPago] = useState("Efectivo");
+  const [Porcentaje,setPorcentaje] = useState(0);
   const [Stock,setStock] = useState(0);
+  const [IdVenta,setIdVenta] = useState(0);
   const [Cantidad,setCantidad] = useState(1);
   const [PrecioVenta,setPrecioVenta] = useState(0);
   const [productosList,setProductosList] = useState([])
+
+
+  const [subTotal,setSubTotal] = useState(0);
+  const [Total,setTotal] = useState(0);
+
   //CLIENTE
   const [Documento,setDocumento] = useState("0");
   const [NombreCompleto,setNombreCompleto] = useState("Consumidor final");
   const [IdCliente,setIdCliente] = useState(1);
   const [clienteSeleccionado, setClienteSeleccionado] = useState([]);
+  
+  const listar = () =>{
+    Axios.get("http://localhost:3001/Metodo_Pagos").then((response)=>{
+      setMetodoPagos(response.data)
+    })
+    
+  }
+  
   const limpiarCampos = () =>{
     setIdProducto(0)
     setCodigo("")
@@ -62,6 +75,15 @@ const FrmRegistrarV = () => {
     setNombre(val.Nombre)
     setStock(val.Stock)
     setPrecioVenta(val.PrecioVenta)
+
+    
+  }
+
+  const cargarCliente = (val) =>{
+    setIdCliente(val.IdCliente)
+    setDocumento(val.Documento)
+    setNombreCompleto(val.NombreCompleto)
+
 
     
   }
@@ -102,18 +124,15 @@ const FrmRegistrarV = () => {
 
   }
 
+  const buscarCorrelativo = async() =>{
+    await Axios.get("http://localhost:3001/ventacorrelativa").then((response)=>{
+       setIdVenta(response.data[0].ultimaventa)
+     })
+   }
 
   const handleSeleccionarCliente = (cliente) => {
     setClienteSeleccionado(cliente);
   setEstadoModalC(false);
-
-    setIdCliente(clienteSeleccionado.IdCliente)
-    setDocumento(clienteSeleccionado.Documento)
-    setNombreCompleto(clienteSeleccionado.NombreCompleto)
-
-
-    //USAR ID CLIENTE PARA REGISTRAR LA VENTA
-  console.log(IdCliente)
   };
 
   const handleSeleccionarProducto = (producto) => {
@@ -124,9 +143,123 @@ const FrmRegistrarV = () => {
     listar()
   },[])
 
+
+const handleRegistrar = () => {
+
+  if(productosList!=null){ 
+
+    Axios.post("http://localhost:3001/createventa",{
+    idUsuario:1,
+    idCliente:IdCliente,
+    TipoDocumento:TipoDocumento,
+    NumeroDocumento:IdVenta,
+    MontoPago:0,
+    MontoCambio:0,
+    MontoTotal:subTotal,
+    MetodoPago:MetodoPago
+    }).then(()=>{
+     
+      productosList.forEach((producto) => {
+
+        Axios.post("http://localhost:3001/createdetalleventa",{
+        idVenta:IdVenta,
+        idProducto:producto.IdProducto,
+        PrecioVenta:producto.PrecioVenta,
+        Cantidad:producto.Cantidad,
+        SubTotal:producto.SubTotal
+      
+        }).then(()=>{
+          
+          Axios.put("http://localhost:3001/descontarstock",{
+
+          idProducto:producto.IdProducto,
+          Cantidad:producto.Cantidad
+          })
+
+          
+        }
+        ).catch(function(error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '¡No se pudo registrar los detalles de la venta!',
+            footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
+          }) })
+    
+        })
+
+        noti.fire({
+          title: <strong>¡Operación exitosa!</strong>,
+          html: <i>La venta <strong>{IdVenta}</strong> ha sido registrada correctamente</i>,
+          icon: 'success',
+          timer: 3000
+        })
+
+        limpiarCampos()
+        setIdCliente(1)
+        setDocumento(0)
+        setNombreCompleto("Consumidor final")
+        setProductosList([])
+
+
+
+      
+    }).catch(function(error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '¡No se pudo registrar la venta!',
+        footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
+      }) })
+
+
+
+   
+    
+    }
+    else{ Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: '¡No se pudo registrar la venta!',
+      footer: 'La lista de productos está vacía'
+    })}
+}
+
+
+
+const selectMetodoPago = (event) =>{
+  setMetodoPago(event.target.options[event.target.selectedIndex].text)
+          setPorcentaje(event.target.value)
+          setTotal((subTotal*Porcentaje)/100 + subTotal)
+}
+
+
   useEffect(()=>{
    productoSeleccionado!=null ? cargarProducto(productoSeleccionado) : setNombre("")
   },[productoSeleccionado])
+
+  useEffect(()=>{
+    clienteSeleccionado!=null ? cargarCliente(clienteSeleccionado) : setNombreCompleto("")
+   },[clienteSeleccionado])
+
+   useEffect(()=>{
+    buscarCorrelativo()
+   },[productosList])
+
+   useEffect(()=>{
+ 
+      if(productosList!=null){ 
+        let nuevoSubTotal = 0;
+        productosList.forEach((producto) => {
+          nuevoSubTotal += producto.SubTotal;
+        });
+        setSubTotal(nuevoSubTotal);
+        setTotal((nuevoSubTotal*Porcentaje)/100 + nuevoSubTotal)
+        }
+        else{ setSubTotal(0)}
+    
+   },[productosList])
+ 
 
   return (
     
@@ -152,8 +285,15 @@ const FrmRegistrarV = () => {
           Tipo de comprobante:
         </Form.Label>
         <Col sm="17">
-          <Form.Select aria-label="Tipo de comprobante">
-            <option>Factura A</option>
+          <Form.Select aria-label="Tipo de comprobante" 
+           onChange={(event) => 
+          
+            setTipoDocumento(event.target.options[event.target.selectedIndex].text)
+            //setMetodoPagos(event.target.value)
+          }>
+            <option text="Factura A">Factura A</option>
+            <option text="Factura B">Factura B</option>
+            <option text="Boleta">Boleta A</option>
           </Form.Select>
         </Col>
       </Form.Group>
@@ -296,13 +436,14 @@ const FrmRegistrarV = () => {
         <Col>
         <Form.Select
         onChange={(event) => 
-          setMetodoPagos(event.target.value)
+          
+          {selectMetodoPago(event)}
         }
         >
              {MetodoPagosList.map((metodo) =>
       
               (
-              <option key={metodo.IdMetodoPago} value={metodo.IdMetodoPago}>{metodo.Descripcion}</option>
+              <option key={metodo.IdMetodoPago} value={metodo.Porcentaje} text={metodo.Descripcion}>{metodo.Descripcion}</option>
             ))}
     		
         
@@ -313,14 +454,14 @@ const FrmRegistrarV = () => {
 
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>SubTotal</Form.Label>
-        <Form.Control type="text" placeholder="SubTotal" disabled readOnly />
+        <Form.Control value={subTotal} type="text" placeholder="SubTotal" disabled readOnly />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Total</Form.Label>
-        <Form.Control type="text" placeholder="Total" disabled readOnly />
+        <Form.Control value={Total} type="text" placeholder="Total" disabled readOnly />
       </Form.Group>
-      <ButtonGroup aria-label="Basic example"> <Button style={{width:'130px', height:'50px', display: 'flex', marginTop:'50px'}} variant='primary'> <MDBIcon style={{marginRight:'10px'}} far icon="plus-square" size='2x'/>Registrar</Button>  </ButtonGroup>
+      <ButtonGroup aria-label="Basic example"> <Button onClick={handleRegistrar} style={{width:'130px', height:'50px', display: 'flex', marginTop:'50px'}} variant='primary'> <MDBIcon style={{marginRight:'10px'}} far icon="plus-square" size='2x'/>Registrar</Button>  </ButtonGroup>
 
     </Form>
       
