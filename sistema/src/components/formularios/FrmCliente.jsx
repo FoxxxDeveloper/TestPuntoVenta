@@ -96,7 +96,7 @@ const FrmCliente = () => {
     setNombreCompleto(val.NombreCompleto)
     setCorreo(val.Correo)
     setTelefono(val.Telefono)
-    setEstadoValor(val.Estado)
+    setEstadoValor(val.Estado.data[0])
 
     
   }
@@ -372,7 +372,7 @@ const FrmCliente = () => {
         <td> {cliente.NombreCompleto} </td>
         <td> {cliente.Correo} </td>
         <td> {cliente.Telefono} </td>
-        <td> {cliente.Estado.data} </td>
+        <td> {cliente.Estado.data[0]} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarCliente(cliente)}} ><MDBIcon fas icon="pencil-alt" /></Button>

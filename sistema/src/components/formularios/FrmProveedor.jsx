@@ -32,7 +32,7 @@ const FrmProveedor = () => {
   
 
   const registrar = () =>{
-
+   
     
     if(Documento===""|| RazonSocial===""|| Correo===""||Telefono==="") {
 
@@ -96,7 +96,7 @@ const FrmProveedor = () => {
     setRazonSocial(val.RazonSocial)
     setCorreo(val.Correo)
     setTelefono(val.Telefono)
-    setEstadoValor(val.Estado)
+    setEstadoValor(val.Estado.data[0])
 
     
   }
@@ -373,7 +373,7 @@ const FrmProveedor = () => {
         <td> {Proveedor.RazonSocial} </td>
         <td> {Proveedor.Correo} </td>
         <td> {Proveedor.Telefono} </td>
-        <td> {Proveedor.Estado} </td>
+        <td> {Proveedor.Estado.data[0]} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarProveedor(Proveedor)}} ><MDBIcon fas icon="pencil-alt" /></Button>

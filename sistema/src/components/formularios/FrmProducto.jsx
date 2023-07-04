@@ -13,11 +13,11 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {MDBIcon} from 'mdb-react-ui-kit';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Paginacion from '../Paginacion';
 
 const noti = withReactContent(Swal)
 
 const FrmProducto = () => {
-  <Header/>
   const [IdProducto,setIdProducto] = useState(0);
   const [Codigo,setCodigo] = useState("");
   const [Nombre,setNombre] = useState("");
@@ -33,6 +33,17 @@ const FrmProducto = () => {
   const [categoriasList,setCategorias] = useState([])
   const [busqueda,setBusqueda] = useState("")
   const [filtro,setFiltro] = useState("Codigo")
+
+
+
+// PAGINACION
+  const productosPorPagina = 20
+  const [actualPagina,setActualPagina] = useState(1)
+  const [total, setTotal]=useState(0)
+  const ultimoIndex = actualPagina * productosPorPagina;
+  const primerIndex = ultimoIndex - productosPorPagina;
+
+
   const registrar = () =>{
 
     
@@ -80,6 +91,7 @@ const FrmProducto = () => {
    await Axios.get("http://localhost:3001/productos").then((response)=>{
       setProductos(response.data)
       setTablaProductos(response.data)
+      setTotal(response.data.length);
     })
   }
 
@@ -107,7 +119,7 @@ const FrmProducto = () => {
     setStock(val.Stock)
     setPrecioCompra(val.PrecioCompra)
     setPrecioVenta(val.PrecioVenta)
-    setEstadoValor(val.Estado)
+    setEstadoValor(val.Estado.data[0])
 
     
   }
@@ -214,22 +226,27 @@ const FrmProducto = () => {
   const handleChange=e=> {
     setBusqueda(e.target.value)
     filtrar(e.target.value, filtro)
+    setActualPagina(1)
   }
 
-  const filtrar=(cadenaBusqueda, filtro)=>{
-    var resultadosBusqueda=tablaProductos.filter((elemento)=>{
-      if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
+
+  const filtrar = (cadenaBusqueda, filtro) => {
+    var resultadosBusqueda = Productos.filter((elemento) => {
+      if (elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())) {
         return elemento;
       }
       return 0;
-    })
-    setProductos(resultadosBusqueda)
-  }
+    });
+    setTablaProductos(resultadosBusqueda);
+    setTotal(resultadosBusqueda.length);
+  };
 
   useEffect(()=>{
     listar()
   },[])
    
+
+
   listarCategorias()
 
   return (
@@ -442,12 +459,8 @@ const FrmProducto = () => {
       </tr>
     </thead>
     <tbody>
-      {Productos.map((producto) =>
-      
-      (
-        
-        <tr key={producto.IdProducto}>
-         
+    {tablaProductos.slice(primerIndex, ultimoIndex).map((producto) => (
+                <tr key={producto.IdProducto}>
         <td> {producto.Codigo} </td>
         <td> {producto.Nombre} </td>
         <td> {producto.Descripcion} </td>
@@ -455,7 +468,7 @@ const FrmProducto = () => {
         <td> {producto.Stock} </td>
         <td> {producto.PrecioCompra} </td>
         <td> {producto.PrecioVenta} </td>
-        <td> {producto.Estado} </td>
+        <td> {producto.Estado.data[0]===1?"Activo":"No Activo"} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarProducto(producto)}} ><MDBIcon fas icon="pencil-alt" /></Button>
@@ -464,14 +477,23 @@ const FrmProducto = () => {
           </ButtonGroup>
           
         </td>
-
-        
         </tr>
-       
-      ))}
-      
+       ))}
     </tbody>
+    
   </Table>
+  
+
+
+
+
+  </div>
+  <div style={{display:'flex',justifyContent:'center'}}>
+  <Paginacion productosPorPagina={productosPorPagina} 
+  actualPagina={actualPagina} 
+  setActualPagina={setActualPagina}
+  total={total}
+  />
   </div>
   <Footer/>
  </div>

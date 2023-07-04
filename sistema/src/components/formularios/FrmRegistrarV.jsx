@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useRef } from 'react'
 import Header from '../Header';
 import Footer from '../Footer';
 import '../../Css/registros.css'
@@ -46,6 +46,10 @@ const FrmRegistrarV = () => {
   const [subTotal,setSubTotal] = useState(0);
   const [Total,setTotal] = useState(0);
 
+
+
+  const CodigoRef = useRef(null);
+
   //CLIENTE
   const [Documento,setDocumento] = useState("0");
   const [NombreCompleto,setNombreCompleto] = useState("Consumidor final");
@@ -62,6 +66,14 @@ const FrmRegistrarV = () => {
   const limpiarCampos = () =>{
     setIdProducto(0)
     setCodigo("")
+    setNombre("")
+    setStock(0)
+    setPrecioVenta(0)
+    setCantidad(1)
+    
+  }
+  const limpiarCampos2 = () =>{
+    setIdProducto(0)
     setNombre("")
     setStock(0)
     setPrecioVenta(0)
@@ -93,13 +105,26 @@ const FrmRegistrarV = () => {
   setProductosList(arrayNuevo)
   }
   const handleAgregar = () =>{
-
     const existeProducto = productosList.find(
-      (producto) => producto.IdProducto === IdProducto
-    );
-    if (existeProducto) {
+    (producto) => producto.IdProducto === IdProducto
+  );
+
+  if (existeProducto) {
+    const productosActualizados = productosList.map((producto) => {
+      if (producto.IdProducto === IdProducto) {
+        return {
+          ...producto,
+          Cantidad: Number(producto.Cantidad) + Number(Cantidad),
+          SubTotal: (Number(producto.Cantidad) + Number(Cantidad)) * producto.PrecioVenta
+        };
+      }
+      return producto;
+    });
+
+    setProductosList(productosActualizados);
+    limpiarCampos();
       //AGREGAR ALERTA DE BOOTSTRAP
-      alert('El producto ya existe');
+      //Editar Cantidad del producto en la tabla donde el idproducto sea igual al idproducto que estoy agregando
     } else {
       if (IdProducto !== 0) {
         const nuevoProducto = {
@@ -142,6 +167,40 @@ const FrmRegistrarV = () => {
   useEffect(()=>{
     listar()
   },[])
+
+  const handleKeyDown =  (event) => {
+    
+    if (event.key === 'Enter') {
+
+      Axios.get(`http://localhost:3001/producto?Codigo=${Codigo}`)
+        .then((response) => {
+          console.log(response.data)
+          // Maneja la respuesta del servidor
+          const ProductoEncontrado = response.data;
+          if (ProductoEncontrado) {
+            // Producto encontrado
+
+            
+             setIdProducto( ProductoEncontrado.IdProducto)
+             setNombre( ProductoEncontrado.Nombre)
+             setPrecioVenta (ProductoEncontrado.PrecioVenta)
+             setStock (ProductoEncontrado.Stock)
+            
+          } else {
+            // Producto no encontrado
+            CodigoRef.current.style.backgroundColor = 'mistyrose';
+            limpiarCampos2()
+            // Actualiza los estados del componente según corresponda
+            // ...
+          }
+        })
+        .catch((error) => {
+          // Maneja los errores de la solicitud
+          CodigoRef.current.style.backgroundColor = 'mistyrose';
+          limpiarCampos2()
+        });
+    }
+  };
 
 
 const handleRegistrar = () => {
@@ -258,9 +317,12 @@ const selectMetodoPago = (event) =>{
         }
         else{ setSubTotal(0)}
     
-   },[productosList])
+   },[productosList, Porcentaje])
+
+
  
 
+   
   return (
     
     <div className='divgeneral'>
@@ -352,10 +414,13 @@ const selectMetodoPago = (event) =>{
 
       <Form.Group style={{marginTop:'-5px', marginLeft:'1px', display:'flex'}} as={Row} className="mb-3" controlId="formPlaintextPassword">
         <Col sm="2">
-          <Form.Control  onChange={(event) => {
+          <Form.Control onKeyDown={handleKeyDown} onChange={(event) => {
             setCodigo(event.target.value)
+            event.target.style.backgroundColor = ''
           }}
-          value={Codigo} type='text' placeholder="Cod" />
+          value={Codigo} type='text' placeholder="Cod" 
+          ref={CodigoRef}
+          />
         </Col>
         <Col sm="2">
           <Form.Control onChange={(event) => {

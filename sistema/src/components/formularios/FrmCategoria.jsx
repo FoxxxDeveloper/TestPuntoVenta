@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import '../../Css/forms.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -81,7 +81,7 @@ const FrmCategoria = () => {
     setEditar(true)
     setIdCategoria(val.IdCategoria)
     setDescripcion(val.Descripcion)
-    setEstadoValor(val.Estado)
+    setEstadoValor(val.Estado.data[0])
 
     
   }
@@ -105,8 +105,8 @@ const FrmCategoria = () => {
     IdCategoria:IdCategoria,
     Descripcion:Descripcion,
     EstadoValor:EstadoValor
-    }).then(()=>{console.log(IdCategoria)
-      listar()
+    }).then(()=>{
+      
       noti.fire({
         title: <strong>¡Operacion exitosa!</strong>,
         html: <i>La categoria <strong>{Descripcion}</strong> ha sido editada correctamente</i>,
@@ -147,7 +147,7 @@ const FrmCategoria = () => {
       
     if(result.isConfirmed){
       Axios.delete("http://localhost:3001/deletecategoria/"+categoria.IdCategoria)
-      .then(()=>{listar()
+      .then(()=>{
         noti.fire({
           title: <strong>¡Eliminada!</strong>,
           html: <i>La categoria <strong>{categoria.Descripcion}</strong> ha sido eliminada correctamente</i>,
@@ -171,7 +171,9 @@ const FrmCategoria = () => {
   }
 
 
-  listar()
+  useEffect(()=>{
+    listar()
+  },[categoriasList])
 
   return (
     
@@ -252,7 +254,7 @@ const FrmCategoria = () => {
         
         <tr key={categoria.IdCategoria}>
         <td> {categoria.Descripcion} </td>
-        <td> {categoria.Estado} </td>
+        <td> {categoria.Estado.data[0]} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarCategoria(categoria)}} ><MDBIcon fas icon="pencil-alt" /></Button>

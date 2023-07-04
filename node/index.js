@@ -56,8 +56,14 @@ app.post("/createproducto",(req,res)=>{
     const Stock = req.body.Stock;
     const PrecioCompra = req.body.PrecioCompra;
     const PrecioVenta = req.body.PrecioVenta;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
+
     db.query("Insert into producto (Codigo, Nombre, Descripcion, PrecioCompra,PrecioVenta, Stock, IdCategoria, Estado) values (?,?,?,?,?,?,?,?)",[Codigo,Nombre,Descripcion,PrecioCompra,PrecioVenta,Stock,IdCategoria,Estado],
     (err,result)=>{
         if(err){
@@ -68,6 +74,27 @@ app.post("/createproducto",(req,res)=>{
     });
 });
 
+
+app.get("/producto",(req,res)=>{
+    const codigo = req.query.Codigo;
+    if (!codigo) {
+        res.status(400).send("Debes proporcionar el código del producto.");
+        return;
+      }
+
+    db.query("SELECT IdProducto, Codigo, Nombre, p.Descripcion, c.IdCategoria, c.Descripcion as DescripcionCategoria, Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria where Codigo = ?", [codigo],
+    (err,result)=>{if (err) {
+        console.log(err);
+        res.status(500).send("Error al buscar el producto.");
+      } else {
+        if (result.length === 0) {
+          res.status(404).send("Producto no encontrado.");
+        } else {
+          res.send(result[0]); // Devolver el primer producto encontrado (asumiendo que el código es único)
+        }
+      }
+    });
+  });
 
 app.get("/productos",(req,res)=>{
     db.query("SELECT IdProducto, Codigo, Nombre, p.Descripcion, c.IdCategoria, c.Descripcion as DescripcionCategoria, Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria;",
@@ -89,10 +116,13 @@ app.put("/updateproducto",(req,res)=>{
     const Stock = req.body.Stock;
     const PrecioCompra = req.body.PrecioCompra;
     const PrecioVenta = req.body.PrecioVenta;
-    const Estado = req.body.EstadoValor;
+    let Estado = req.body.EstadoValor;
 
-    if(Estado=="") {Estado=1}
-    
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("update producto set Codigo=?, Nombre=?, Descripcion=?, PrecioCompra=?,PrecioVenta=?, Stock=?, IdCategoria=?, Estado=? where idProducto = ?",[Codigo,Nombre,Descripcion,PrecioCompra,PrecioVenta,Stock,IdCategoria,Estado,IdProducto],
     (err,result)=>{
         if(err){
@@ -124,8 +154,12 @@ app.post("/createusuario",(req,res)=>{
     const Correo = req.body.Correo;
     const Clave = req.body.Clave;
     const IdRol = req.body.IdRol;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("Insert into usuario (Documento,NombreCompleto,Correo,Clave,IdRol,Estado) values (?,?,?,?,?,?)",[Documento,NombreCompleto,Correo,Clave, IdRol,Estado],
     (err,result)=>{
         if(err){
@@ -155,9 +189,13 @@ app.put("/updateusuario",(req,res)=>{
     const Correo = req.body.Correo;
     const Clave = req.body.Clave;
     const IdRol = req.body.IdRol;
-    const Estado = req.body.EstadoValor;
+    let Estado = req.body.EstadoValor;
 
-    if(Estado=="") {Estado=1}
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     
     db.query("update usuario set Documento=?, NombreCompleto=?, Correo=?, Clave=?,IdRol=?, Estado=? where IdUsuario = ?",[Documento,NombreCompleto,Correo,Clave,IdRol,Estado,IdUsuario],
     (err,result)=>{
@@ -186,8 +224,12 @@ app.delete("/deleteusuario/:id",(req,res)=>{
 
 app.post("/createcategoria",(req,res)=>{
     const Descripcion = req.body.Descripcion;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("Insert into categoria (Descripcion,Estado) values (?,?)",[Descripcion,Estado],
     (err,result)=>{
         if(err){
@@ -213,7 +255,12 @@ app.get("/categorias",(req,res)=>{
 app.put("/updatecategoria",(req,res)=>{
     const IdCategoria = req.body.IdCategoria;
     const Descripcion = req.body.Descripcion;
-    const Estado = req.body.EstadoValor;
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("update categoria set Descripcion=?, Estado=? where idcategoria = ?",[Descripcion,Estado,IdCategoria],
     (err,result)=>{
         if(err){
@@ -295,8 +342,12 @@ app.delete("/deletemetodo_pago/:id",(req,res)=>{
     const NombreCompleto = req.body.NombreCompleto;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("Insert into cliente (Documento,NombreCompleto,Correo,Telefono,Estado) values (?,?,?,?,?)",[Documento,NombreCompleto,Correo,Telefono,Estado],
     (err,result)=>{
         if(err){
@@ -325,9 +376,13 @@ app.put("/updatecliente",(req,res)=>{
     const NombreCompleto = req.body.NombreCompleto;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
-    const Estado = req.body.EstadoValor;
+    let Estado = req.body.EstadoValor;
 
-    if(Estado=="") {Estado=1}
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     
     db.query("update cliente set Documento=?, NombreCompleto=?, Correo=?, Telefono=?, Estado=? where idcliente = ?",[Documento,NombreCompleto,Correo,Telefono,Estado,IdCliente],
     (err,result)=>{
@@ -358,8 +413,12 @@ app.post("/createproveedor",(req,res)=>{
     const RazonSocial = req.body.RazonSocial;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("Insert into proveedor (Documento,RazonSocial,Correo,Telefono,Estado) values (?,?,?,?,?)",[Documento,RazonSocial,Correo,Telefono,Estado],
     (err,result)=>{
         if(err){
@@ -388,8 +447,12 @@ app.put("/updateproveedor",(req,res)=>{
     const RazonSocial = req.body.RazonSocial;
     const Correo = req.body.Correo;
     const Telefono = req.body.Telefono;
-    const Estado = req.body.EstadoValor;
-    
+    let Estado = req.body.EstadoValor;
+    if (Estado === "") {
+        Estado = 1;
+      } else {
+        Estado = parseInt(Estado);
+      }
     db.query("update proveedor set Documento=?, RazonSocial=?, Correo=?, Telefono=?, Estado=? where idproveedor = ?",[Documento,RazonSocial,Correo,Telefono,Estado,Idproveedor],
     (err,result)=>{
         if(err){

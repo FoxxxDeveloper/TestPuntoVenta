@@ -104,7 +104,7 @@ const FrmUsuario = () => {
     setCorreo(val.Correo)
     setClave(val.Clave)
     setIdRol(val.IdRol)
-    setEstadoValor(val.Estado)
+    setEstadoValor(val.Estado.data[0])
     console.log(val)
     
   }
@@ -361,7 +361,7 @@ const FrmUsuario = () => {
         <td> {Usuario.NombreCompleto}</td>
         <td> {Usuario.Correo} </td>
         <td> {Usuario.Descripcion} </td>
-        <td> {Usuario.Estado} </td>
+        <td> {Usuario.Estado.data[0]} </td>
         <td style={{width:"110px"}}>
         <ButtonGroup aria-label="Basic example">
           <Button onClick={()=>{editarUsuario(Usuario)}} ><MDBIcon fas icon="pencil-alt" /></Button>
