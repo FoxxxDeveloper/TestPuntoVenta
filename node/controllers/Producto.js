@@ -1,4 +1,4 @@
-const {db} =require("../db.js")
+const {db} = require("../db.js")
 
 const registrar= (req,res)=>{
     const Codigo = req.body.Codigo;

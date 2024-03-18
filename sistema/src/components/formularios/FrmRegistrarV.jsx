@@ -25,7 +25,7 @@ const FrmRegistrarV = () => {
   const anio=fecha.getFullYear()
 
   
- 
+ //DECLARACION DE ESTADOS 
   const [MetodoPagosList,setMetodoPagos] = useState([])
   const [estadoModalP, setEstadoModalP] = useState(false)
   const [estadoModalC, setEstadoModalC] = useState(false)
@@ -41,21 +41,15 @@ const FrmRegistrarV = () => {
   const [Cantidad,setCantidad] = useState(1);
   const [PrecioVenta,setPrecioVenta] = useState(0);
   const [productosList,setProductosList] = useState([])
-
-
   const [subTotal,setSubTotal] = useState(0);
   const [Total,setTotal] = useState(0);
-
-
-
   const CodigoRef = useRef(null);
-
-  //CLIENTE
   const [Documento,setDocumento] = useState("0");
   const [NombreCompleto,setNombreCompleto] = useState("Consumidor final");
   const [IdCliente,setIdCliente] = useState(1);
   const [clienteSeleccionado, setClienteSeleccionado] = useState([]);
   
+  //FUNCION PARA LISTAR LOS METODOS DE PAGOS
   const listar = () =>{
     Axios.get("http://localhost:3001/Metodo_Pagos").then((response)=>{
       setMetodoPagos(response.data)
@@ -63,6 +57,7 @@ const FrmRegistrarV = () => {
     
   }
   
+  //FUNCION PARA LIMPIAR CAMPOS
   const limpiarCampos = () =>{
     setIdProducto(0)
     setCodigo("")
@@ -72,6 +67,7 @@ const FrmRegistrarV = () => {
     setCantidad(1)
     
   }
+  //FUNCION PARA LIMPIAR CAMPOS
   const limpiarCampos2 = () =>{
     setIdProducto(0)
     setNombre("")
@@ -81,34 +77,34 @@ const FrmRegistrarV = () => {
     
   }
 
+  //FUNCION PARA CARGAR EL PRODUCTO
   const cargarProducto = (val) =>{
     setIdProducto(val.IdProducto)
     setCodigo(val.Codigo)
     setNombre(val.Nombre)
     setStock(val.Stock)
-    setPrecioVenta(val.PrecioVenta)
-
-    
+    setPrecioVenta(val.PrecioVenta)   
   }
 
+//FUNCION PARA CARGAR EL CLIENTE
   const cargarCliente = (val) =>{
     setIdCliente(val.IdCliente)
     setDocumento(val.Documento)
-    setNombreCompleto(val.NombreCompleto)
-
-
-    
+    setNombreCompleto(val.NombreCompleto)  
   }
+
+  // FUNCION PARA ELIMINAR UN PRODUCTO DEL LISTADO DE VENTA
   const eliminarProducto = (id) =>{
    const arrayNuevo = productosList.filter((producto)=> producto.IdProducto !== id )
    console.log(arrayNuevo)
   setProductosList(arrayNuevo)
   }
+  
+  //FUNCION PARA AGREGAR UN PRODUCTO AL LISTADO DE LA VENTA
   const handleAgregar = () =>{
     const existeProducto = productosList.find(
     (producto) => producto.IdProducto === IdProducto
   );
-
   if (existeProducto) {
     const productosActualizados = productosList.map((producto) => {
       if (producto.IdProducto === IdProducto) {
@@ -120,7 +116,6 @@ const FrmRegistrarV = () => {
       }
       return producto;
     });
-
     setProductosList(productosActualizados);
     limpiarCampos();
       //AGREGAR ALERTA DE BOOTSTRAP
@@ -143,31 +138,34 @@ const FrmRegistrarV = () => {
         alert('Debe seleccionar un producto');
       }
     }
-
-
-
-
   }
 
+  
+
+  //FUNCION PARA OBTENER EL NUMERO DE VENTA CORRELATIVA
   const buscarCorrelativo = async() =>{
     await Axios.get("http://localhost:3001/ventacorrelativa").then((response)=>{
        setIdVenta(response.data[0].ultimaventa)
      })
    }
 
+  //FUNCION PARA SELECCION UN CLIENTE
   const handleSeleccionarCliente = (cliente) => {
     setClienteSeleccionado(cliente);
   setEstadoModalC(false);
   };
 
+  //FUNCION PARA SELECCION UN PRODUCTO
   const handleSeleccionarProducto = (producto) => {
     setProductoSeleccionado(producto);
     setEstadoModalP(false);
   };
+  //LLAMADO A LA FUNCION LISTAR 
   useEffect(()=>{
     listar()
   },[])
 
+  // 
   const handleKeyDown =  (event) => {
     
     if (event.key === 'Enter') {
@@ -178,9 +176,7 @@ const FrmRegistrarV = () => {
           // Maneja la respuesta del servidor
           const ProductoEncontrado = response.data;
           if (ProductoEncontrado) {
-            // Producto encontrado
-
-            
+            // Producto encontrado        
              setIdProducto( ProductoEncontrado.IdProducto)
              setNombre( ProductoEncontrado.Nombre)
              setPrecioVenta (ProductoEncontrado.PrecioVenta)
@@ -202,11 +198,9 @@ const FrmRegistrarV = () => {
     }
   };
 
-
+//FUNCIUON PARA REGISTRAR VENTA
 const handleRegistrar = () => {
-
   if(productosList!=null){ 
-
     Axios.post("http://localhost:3001/createventa",{
     idUsuario:1,
     idCliente:IdCliente,

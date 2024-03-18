@@ -17,7 +17,9 @@ import withReactContent from 'sweetalert2-react-content'
 const noti = withReactContent(Swal)
 
 const FrmProveedor = () => {
-  <Header/>
+
+
+// DECLARACION DE ESTADOS
   const [IdProveedor,setIdProveedor] = useState(0);
   const [Documento,setDocumento] = useState("");
   const [RazonSocial,setRazonSocial] = useState("");
@@ -30,10 +32,9 @@ const FrmProveedor = () => {
   const [filtro,setFiltro] = useState("Documento");
   const [busqueda,setBusqueda] = useState("")
   
-
+//FUNCION PARA AGREGAR UN NUEVO PROVEEDOR
   const registrar = () =>{
    
-    
     if(Documento===""|| RazonSocial===""|| Correo===""||Telefono==="") {
 
       Swal.fire({
@@ -70,7 +71,7 @@ const FrmProveedor = () => {
 
     }
   }
-
+//FUNCION PARA LISTAR TODOS LOS PROVEEDORES
   const listar = async () =>{
   await  Axios.get("http://localhost:3001/Proveedores").then((response)=>{
       setProveedors(response.data)
@@ -78,6 +79,7 @@ const FrmProveedor = () => {
     })
   }
 
+  // FUNCION PARA LIMPIAR LOS INPUT 
   const limpiarCampos = () =>{
     setIdProveedor(0)
     setDocumento("")
@@ -88,7 +90,7 @@ const FrmProveedor = () => {
     setEditar(false)
     
   }
-
+// FUNCION PARA TOMAR LOS VALORES DE CADA PROVEEDOR Y PODER EDITARLOS
   const editarProveedor = (val) =>{
     setEditar(true)
     setIdProveedor(val.IdProveedor)
@@ -102,7 +104,7 @@ const FrmProveedor = () => {
   }
  
   
-
+  //FUNCION PARA EDITAR LOS PROVEEDORES
   const updateProveedor = () =>{
 
     if(Documento===""|| RazonSocial===""|| Correo===""||Telefono==="") {
@@ -143,7 +145,7 @@ const FrmProveedor = () => {
       }) })
     }
   }
-
+// ALERTA PREVIA PARA AVISAR QUE ESTA POR BORRAR UN PROVEEDOR
   const pregdelete = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -151,7 +153,7 @@ const FrmProveedor = () => {
     },
     buttonsStyling: false
   })
-
+  // FUNCION PARA BORRAR EL PRODUCTO
   const deleteProveedor = (Proveedor) =>{
     pregdelete.fire({
       title: '¿Estas seguro que desea eliminar el Proveedor "<strong>'+Proveedor.RazonSocial+'</strong>"?' ,
@@ -194,12 +196,12 @@ const FrmProveedor = () => {
     
   }
 
-
+  //FUNCION PARA FILTRAR LOS PROVEEDOR
   const handleChange=e=> {
     setBusqueda(e.target.value)
     filtrar(e.target.value, filtro)
   }
-
+  //FUNCION PARA FILTRAR LOS PROVEEDOR
   const filtrar=(cadenaBusqueda, filtro)=>{
     var resultadosBusqueda=tablaProveedores.filter((elemento)=>{
       if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
@@ -210,6 +212,7 @@ const FrmProveedor = () => {
     setProveedors(resultadosBusqueda)
   }
 
+  //LLAMADO A LA FUNCION LISTAR PROVEEDORES
   useEffect(()=>{
     listar()
   },[])

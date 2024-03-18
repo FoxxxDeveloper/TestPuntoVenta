@@ -17,7 +17,8 @@ import withReactContent from 'sweetalert2-react-content'
 const noti = withReactContent(Swal)
 
 const FrmCliente = () => {
-  <Header/>
+
+  // CREACION DE ESTADOS 
   const [IdCliente,setIdCliente] = useState(0);
   const [Documento,setDocumento] = useState("");
   const [NombreCompleto,setNombreCompleto] = useState("");
@@ -31,11 +32,9 @@ const FrmCliente = () => {
   const [busqueda,setBusqueda] = useState("")
   
 
-  const registrar = () =>{
-
-    
+  //CREACION DE FUNCION REGISTRAR CLIENTES (PARA CREAR)
+  const registrar = () =>{  
     if(Documento===""|| NombreCompleto===""|| Correo===""||Telefono==="") {
-
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -44,7 +43,7 @@ const FrmCliente = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/createcliente",{
+    Axios.post("http://localhost:3001/cliente/registrar",{
     Documento:Documento,
     NombreCompleto:NombreCompleto,
     Correo:Correo,
@@ -71,13 +70,16 @@ const FrmCliente = () => {
     }
   }
 
+  // FUNCION PARA VER O LISTAR TODOS LOS CLIENTES DE LA BASE DE DATOS
   const listar = async() =>{
-   await Axios.get("http://localhost:3001/clientes").then((response)=>{
+   await Axios.get("http://localhost:3001/clientes/").then((response)=>{
       setClientes(response.data)
       setTablaClientes(response.data)
     })
   }
 
+
+  // FUNCION PARA LIMPIAR LOS INPUT 
   const limpiarCampos = () =>{
     setIdCliente(0)
     setDocumento("")
@@ -89,6 +91,8 @@ const FrmCliente = () => {
     
   }
 
+
+// FUNCION PARA TOMAR LOS VALORES DE CADA CLIENTE Y PODER EDITARLOS
   const editarCliente = (val) =>{
     setEditar(true)
     setIdCliente(val.IdCliente)
@@ -97,12 +101,10 @@ const FrmCliente = () => {
     setCorreo(val.Correo)
     setTelefono(val.Telefono)
     setEstadoValor(val.Estado.data[0])
-
-    
+   
   }
  
-  
-
+  //FUNCION PARA EDITAR LOS CLIETNES 
   const updateCliente = () =>{
 
     if(Documento===""|| NombreCompleto===""|| Correo===""||Telefono==="") {
@@ -116,7 +118,7 @@ const FrmCliente = () => {
 
     }else{
 
-    Axios.put("http://localhost:3001/updatecliente",{
+    Axios.put("http://localhost:3001/cliente/editar",{
     IdCliente:IdCliente,
     Documento:Documento,
     NombreCompleto:NombreCompleto,
@@ -143,6 +145,8 @@ const FrmCliente = () => {
     }
   }
 
+
+  // ALERTA PREVIA PARA AVISAR QUE ESTA POR BORRAR UN CLIENTE
   const pregdelete = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -150,7 +154,7 @@ const FrmCliente = () => {
     },
     buttonsStyling: false
   })
-
+  // FUNCION PARA BORRAR EL CLIENTE
   const deleteCliente = (cliente) =>{
     pregdelete.fire({
       title: '¿Estas seguro que desea eliminar el cliente "<strong>'+cliente.NombreCompleto+'</strong>"?' ,
@@ -164,7 +168,7 @@ const FrmCliente = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deletecliente/"+cliente.IdCliente)
+      Axios.delete("http://localhost:3001/cliente/eliminar/"+cliente.IdCliente)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
@@ -180,10 +184,6 @@ const FrmCliente = () => {
           text: '¡No se pudo eliminar el cliente!',
           footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error en el servidor, intente más tarde":JSON.parse(JSON.stringify(error)).message
         }) })
-
-
-
-
     } 
     })
 
@@ -193,11 +193,12 @@ const FrmCliente = () => {
     
   }
 
+  //FUNCION PARA FILTRAR LOS CLIENTES
   const handleChange=e=> {
     setBusqueda(e.target.value)
     filtrar(e.target.value, filtro)
   }
-
+  //FUNCION PARA FILTRAR LOS CLIENTES
   const filtrar=(cadenaBusqueda, filtro)=>{
     var resultadosBusqueda=tablaClientes.filter((elemento)=>{
       if(elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())){
@@ -208,6 +209,7 @@ const FrmCliente = () => {
     setClientes(resultadosBusqueda)
   }
 
+  // USEEFFECT PARA VER LOS CLIETNES 
   useEffect(()=>{
     listar()
   },[clienteList])
@@ -216,6 +218,7 @@ const FrmCliente = () => {
     
     <div className='divgeneral'>
 
+  {/* IMPORTACION DEL COMPONENTE  HEADER  */}
     <Header/>
       
     <div>
@@ -390,6 +393,8 @@ const FrmCliente = () => {
     </tbody>
   </Table>
   </div>
+
+  {/* IMPORTACION DEL COMPONENTE  FOOTER  */}
   <Footer/>
  </div>
  

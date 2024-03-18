@@ -17,7 +17,8 @@ import withReactContent from 'sweetalert2-react-content'
 const noti = withReactContent(Swal)
 
 const FrmMetodoPago = () => {
-  <Header/>
+
+   // CREACION DE ESTADOS 
   const [IdMetodoPago,setIdMetodoPago] = useState(0);
   const [Descripcion,setDescripcion] = useState("");
   const [Porcentaje,setPorcentaje] = useState(0);
@@ -25,10 +26,9 @@ const FrmMetodoPago = () => {
   const [editar,setEditar] = useState(false)
 
   
-
+//CREACION DE FUNCION REGISTRAR METODOS DE PAGO (PARA CREAR)
   const registrar = () =>{
-
-    
+  
     if(Descripcion==="" || Porcentaje==="") {
 
       Swal.fire({
@@ -39,7 +39,7 @@ const FrmMetodoPago = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/createMetodo_Pago",{
+    Axios.post("http://localhost:3001/metodo_pago/crear",{
     Descripcion:Descripcion,
     Porcentaje:Porcentaje
     }).then(()=>{
@@ -62,14 +62,14 @@ const FrmMetodoPago = () => {
 
     }
   }
-
+ // FUNCION PARA VER O LISTAR TODOS LOS METODOS DE PAGOS DE LA BASE DE DATOS
   const listar = () =>{
-    Axios.get("http://localhost:3001/Metodo_Pagos").then((response)=>{
+    Axios.get("http://localhost:3001/metodo_pago/").then((response)=>{
       setMetodoPagos(response.data)
-    })
-    
+    })   
   }
 
+  // FUNCION PARA LIMPIAR LOS INPUT 
   const limpiarCampos = () =>{
     setIdMetodoPago(0)
     setDescripcion("")
@@ -77,18 +77,16 @@ const FrmMetodoPago = () => {
     setEditar(false)
     
   }
-
+// FUNCION PARA TOMAR LOS VALORES DE CADA CLIENTE Y PODER EDITARLOS
   const editarMetodoPago = (val) =>{
     setEditar(true)
     setIdMetodoPago(val.IdMetodoPago)
     setDescripcion(val.Descripcion)
-    setPorcentaje(val.Porcentaje)
-
-    
+    setPorcentaje(val.Porcentaje)   
   }
  
   
-
+// FUNCION PARA EDITARL LOS METODOS DE PAGO
   const updateMetodoPago = () =>{
 
     if(Descripcion==="") {
@@ -102,7 +100,7 @@ const FrmMetodoPago = () => {
 
     }else{
 
-    Axios.put("http://localhost:3001/updateMetodo_Pago",{
+    Axios.put("http://localhost:3001/metodo_pago/editar",{
     IdMetodoPago:IdMetodoPago,
     Descripcion:Descripcion,
     Porcentaje:Porcentaje
@@ -126,6 +124,10 @@ const FrmMetodoPago = () => {
     }
   }
 
+
+
+  
+  // ALERTA PREVIA PARA AVISAR QUE ESTA POR BORRAR UN CLIENTE
   const pregdelete = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -134,6 +136,7 @@ const FrmMetodoPago = () => {
     buttonsStyling: false
   })
 
+  // FUNCION PARA BORRAR EL CLIENTE
   const deleteMetodoPago = (MetodoPago) =>{
     pregdelete.fire({
       title: '¿Estas seguro que desea eliminar el Metodo de Pago "<strong>'+MetodoPago.Descripcion+'</strong>"?' ,
@@ -147,7 +150,7 @@ const FrmMetodoPago = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteMetodo_Pago/"+MetodoPago.IdMetodoPago)
+      Axios.delete("http://localhost:3001/metodo_pago/eliminar/"+MetodoPago.IdMetodoPago)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,

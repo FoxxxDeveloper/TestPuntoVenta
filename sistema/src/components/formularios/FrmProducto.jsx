@@ -18,6 +18,8 @@ import Paginacion from '../Paginacion';
 const noti = withReactContent(Swal)
 
 const FrmProducto = () => {
+
+// DECLARACION DE ESTADOS
   const [IdProducto,setIdProducto] = useState(0);
   const [Codigo,setCodigo] = useState("");
   const [Nombre,setNombre] = useState("");
@@ -43,7 +45,7 @@ const FrmProducto = () => {
   const ultimoIndex = actualPagina * productosPorPagina;
   const primerIndex = ultimoIndex - productosPorPagina;
 
-
+//FUNCION PARA AGREGAR UN NUEVO PRODUCTO
   const registrar = () =>{
 
     
@@ -57,7 +59,7 @@ const FrmProducto = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/createproducto",{
+    Axios.post("http://localhost:3001/producto/registrar",{
     Codigo:Codigo,
     Nombre:Nombre,
     Descripcion:Descripcion,
@@ -86,15 +88,16 @@ const FrmProducto = () => {
 
     }
   }
-
+//FUNCION PARA LISTAR TODOS LOS PRODUCTOS
   const listar =async () =>{
-   await Axios.get("http://localhost:3001/productos").then((response)=>{
+   await Axios.get("http://localhost:3001/producto/").then((response)=>{
       setProductos(response.data)
       setTablaProductos(response.data)
       setTotal(response.data.length);
     })
   }
 
+  // FUNCION PARA LIMPIAR LOS INPUT 
   const limpiarCampos = () =>{
     setIdProducto(0)
     setCodigo("")
@@ -108,7 +111,7 @@ const FrmProducto = () => {
     setEditar(false)
     
   }
-
+// FUNCION PARA TOMAR LOS VALORES DE CADA PRODUCTO Y PODER EDITARLOS
   const editarProducto = (val) =>{
     setEditar(true)
     setIdProducto(val.IdProducto)
@@ -123,13 +126,14 @@ const FrmProducto = () => {
 
     
   }
- 
+ //FUNCION PARA LISTAR LAS CATEGORIAS
   const listarCategorias = () =>{
     Axios.get("http://localhost:3001/categorias").then((response)=>{
       setCategorias(response.data)
     })
   }
 
+  //FUNCION PARA EDITAR LOS PRODUCTOS 
   const updateProducto = () =>{
 
     if(Codigo===""|| Nombre===""||Descripcion===""||PrecioCompra===0||PrecioVenta===0) {
@@ -172,7 +176,7 @@ const FrmProducto = () => {
       }) })
     }
   }
-
+// ALERTA PREVIA PARA AVISAR QUE ESTA POR BORRAR UN PRODUCTO
   const pregdelete = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -180,7 +184,7 @@ const FrmProducto = () => {
     },
     buttonsStyling: false
   })
-
+  // FUNCION PARA BORRAR EL PRODUCTO
   const deleteProducto = (producto) =>{
     pregdelete.fire({
       title: '¿Estas seguro que desea eliminar el producto "<strong>'+producto.Nombre+'</strong>"?' ,
@@ -222,14 +226,14 @@ const FrmProducto = () => {
 
     
   }
-
+  //FUNCION PARA FILTRAR LOS PRODUCTOS
   const handleChange=e=> {
     setBusqueda(e.target.value)
     filtrar(e.target.value, filtro)
     setActualPagina(1)
   }
 
-
+  //FUNCION PARA FILTRAR LOS PRODUCTOS
   const filtrar = (cadenaBusqueda, filtro) => {
     var resultadosBusqueda = Productos.filter((elemento) => {
       if (elemento[filtro].toString().toLowerCase().includes(cadenaBusqueda.toLowerCase())) {
@@ -241,6 +245,7 @@ const FrmProducto = () => {
     setTotal(resultadosBusqueda.length);
   };
 
+  //LLAMADO AL A FUNCION LISTAR PRODUCTOS
   useEffect(()=>{
     listar()
   },[])

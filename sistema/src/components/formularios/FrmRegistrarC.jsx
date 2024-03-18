@@ -12,7 +12,11 @@ import { useState} from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import MdProveedor from '../modales/MdProveedor';
 import MdProducto from '../modales/MdProducto';
+
+
+
 const FrmRegistrarC = () => {
+  
   const fecha = new Date();
   const dia = fecha.getDate() 
   const mes=fecha.getMonth()+1

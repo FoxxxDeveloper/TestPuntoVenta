@@ -17,7 +17,8 @@ import withReactContent from 'sweetalert2-react-content'
 const noti = withReactContent(Swal)
 
 const FrmCategoria = () => {
-  <Header/>
+ 
+  // Declarando estados
   const [IdCategoria,setIdCategoria] = useState(0);
   const [Descripcion,setDescripcion] = useState("");
   const [EstadoValor,setEstadoValor] = useState(1);
@@ -25,7 +26,7 @@ const FrmCategoria = () => {
   const [editar,setEditar] = useState(false)
 
   
-
+    // Función para registrar una nueva categoría
   const registrar = () =>{
 
     
@@ -39,7 +40,7 @@ const FrmCategoria = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/createcategoria",{
+    Axios.post("http://localhost:3001/categoria/registrar",{
     Descripcion:Descripcion,
     EstadoValor:EstadoValor
     }).then(()=>{
@@ -62,13 +63,13 @@ const FrmCategoria = () => {
 
     }
   }
-
+// Función para listar todas las categorías
   const listar = () =>{
-    Axios.get("http://localhost:3001/categorias").then((response)=>{
+    Axios.get("http://localhost:3001/categoria/").then((response)=>{
       setCategorias(response.data)
     })
   }
-
+// Función limpiar los campos
   const limpiarCampos = () =>{
     setIdCategoria(0)
     setDescripcion("")
@@ -76,7 +77,7 @@ const FrmCategoria = () => {
     setEditar(false)
     
   }
-
+// Funcion para cargar la categoría a los inputs
   const editarCategoria = (val) =>{
     setEditar(true)
     setIdCategoria(val.IdCategoria)
@@ -87,7 +88,7 @@ const FrmCategoria = () => {
   }
  
   
-
+// Función para editar una categoría
   const updateCategoria = () =>{
 
     if(Descripcion==="") {
@@ -101,7 +102,7 @@ const FrmCategoria = () => {
 
     }else{
 
-    Axios.put("http://localhost:3001/updatecategoria",{
+    Axios.put("http://localhost:3001/categoria/editar",{
     IdCategoria:IdCategoria,
     Descripcion:Descripcion,
     EstadoValor:EstadoValor
@@ -124,7 +125,7 @@ const FrmCategoria = () => {
       }) })
     }
   }
-
+// Alerta para preguntar si desea eliminar
   const pregdelete = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -132,7 +133,7 @@ const FrmCategoria = () => {
     },
     buttonsStyling: false
   })
-
+// Función para eliminar una categoría
   const deleteCategoria = (categoria) =>{
     pregdelete.fire({
       title: '¿Estas seguro que desea eliminar la categoria "<strong>'+categoria.Descripcion+'</strong>"?' ,
@@ -146,7 +147,7 @@ const FrmCategoria = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deletecategoria/"+categoria.IdCategoria)
+      Axios.delete("http://localhost:3001/categoria/eliminar/"+categoria.IdCategoria)
       .then(()=>{
         noti.fire({
           title: <strong>¡Eliminada!</strong>,
