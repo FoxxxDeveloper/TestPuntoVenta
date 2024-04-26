@@ -25,7 +25,7 @@ const MdProducto = ({ titulo, estado, setEstadoModalP, seleccionarProducto }) =>
   const primerIndex = ultimoIndex - productosPorPagina;
 
   const listar = async () => {
-    await Axios.get('http://localhost:3001/productos').then((response) => {
+    await Axios.get('http://localhost:3001/producto').then((response) => {
       setProductos(response.data);
       setTablaProductos(response.data);
       setTotal(response.data.length);

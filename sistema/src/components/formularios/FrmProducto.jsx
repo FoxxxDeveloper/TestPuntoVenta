@@ -128,7 +128,7 @@ const FrmProducto = () => {
   }
  //FUNCION PARA LISTAR LAS CATEGORIAS
   const listarCategorias = () =>{
-    Axios.get("http://localhost:3001/categorias").then((response)=>{
+    Axios.get("http://localhost:3001/categoria").then((response)=>{
       setCategorias(response.data)
     })
   }
@@ -147,7 +147,7 @@ const FrmProducto = () => {
 
     }else{
 
-    Axios.put("http://localhost:3001/updateproducto",{
+    Axios.put("http://localhost:3001/producto/editar",{
     IdProducto:IdProducto,
     Codigo:Codigo,
     Nombre:Nombre,
@@ -198,7 +198,7 @@ const FrmProducto = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteproducto/"+producto.IdProducto)
+      Axios.delete("http://localhost:3001/producto/eliminar/"+producto.IdProducto)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
@@ -248,11 +248,11 @@ const FrmProducto = () => {
   //LLAMADO AL A FUNCION LISTAR PRODUCTOS
   useEffect(()=>{
     listar()
+    listarCategorias()
   },[])
    
 
 
-  listarCategorias()
 
   return (
     

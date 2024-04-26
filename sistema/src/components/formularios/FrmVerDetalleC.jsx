@@ -112,6 +112,14 @@ const FrmVerDetalleC = () => {
         <td> '2' </td>
         <td> '1699' </td>        
         </tr>
+        <tr key='1'>
+
+        <td> 'A001' </td>
+        <td> 'Coca-Cola 3L' </td>
+        <td> '849.5' </td>
+        <td> '2' </td>
+        <td> '1699' </td>        
+        </tr>
       
     </tbody>
     </Table>

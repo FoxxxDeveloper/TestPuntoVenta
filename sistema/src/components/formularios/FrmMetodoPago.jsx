@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import '../../Css/forms.css'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Axios from 'axios';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -39,7 +39,7 @@ const FrmMetodoPago = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/metodo_pago/crear",{
+    Axios.post("http://localhost:3001/metodo_pago/registrar",{
     Descripcion:Descripcion,
     Porcentaje:Porcentaje
     }).then(()=>{
@@ -51,6 +51,7 @@ const FrmMetodoPago = () => {
         timer: 3000
       })
       limpiarCampos()
+      listar()
       
     }).catch(function(error) {
       Swal.fire({
@@ -159,6 +160,7 @@ const FrmMetodoPago = () => {
           timer: 3000
         })
         limpiarCampos() 
+        listar()
       }).catch(function(error) {
         Swal.fire({
           icon: 'error',
@@ -176,8 +178,10 @@ const FrmMetodoPago = () => {
     
   }
 
-
+useEffect(()=>{
   listar()
+},[])
+ 
 
   return (
     

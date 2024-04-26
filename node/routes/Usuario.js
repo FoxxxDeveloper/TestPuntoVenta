@@ -5,7 +5,7 @@ const {mostrar, registrar, editar, eliminar, login} = require ('../controllers/U
 
 
 router.get("/",mostrar)
-router.get("/login",login)
+router.post("/login",login)
 router.post("/registrar",registrar)
 router.put("/editar",editar)
 router.delete("/eliminar/:id",eliminar)

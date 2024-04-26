@@ -22,7 +22,7 @@ const MdProveedor = ({ titulo, estado, setEstadoModalPr }) => {
 
 
   const listar =async () =>{
-   await Axios.get("http://localhost:3001/Proveedores").then((response)=>{
+   await Axios.get("http://localhost:3001/Proveedor").then((response)=>{
     setProveedores(response.data)
     setTablaProveedores(response.data)
     })

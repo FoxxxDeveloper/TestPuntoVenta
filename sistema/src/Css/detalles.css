@@ -8,7 +8,7 @@
     border-width: 1px;
     border-style: solid;
     margin-left: 5px;
-    height: 85px;
+    /* height: 85px; */
 }
 .infoventa{
     width: 500px;
@@ -16,7 +16,7 @@
     border-width: 1px;
     border-style: solid;
     margin-left: 705px;
-    height: 80px;
+    /* height: 80px; */
 }
 .infoproducto2{
     width: 1200px;
@@ -24,7 +24,7 @@
     border-width: 1px;
     border-style: solid;
     margin-left: 5px;
-    height: 85px;
+    /* height: 85px; */
     margin-top: 10px;
 }
 .cont2
@@ -41,5 +41,5 @@
     width: 1050px;
     margin-left: 5px;
     margin-top: 10px;
-    height: 100px;
+    /* height: 100px; */
 }

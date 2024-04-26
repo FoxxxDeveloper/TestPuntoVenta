@@ -65,9 +65,27 @@ const descontarStock=(req,res)=>{
 };
 
 
+const verDetalle = (req,res)=>{
+    const NumeroDocumento = req.query.NumeroDocumento;
+    if (!NumeroDocumento) {
+        res.status(400).send("Debes proporcionar el numero de documento de la venta.");
+        return;
+      }
+
+    db.query("select  u.NombreCompleto as UsuarioRegistro, v.IdVenta, DATE_FORMAT(v.FechaRegistro , '%Y-%m-%d') as FechaRegistro, v.TipoDocumento, v.NumeroDocumento,v.MontoTotal, c.NombreCompleto as NombreCliente,  c.Documento as DocumentoCliente, p.Nombre as Producto, p.Codigo,dv.idDetalleVenta, dv.PrecioVenta, dv.Cantidad, dv.SubTotal from venta v inner join detalle_venta dv on dv.IdVenta = v.IdVenta inner join Usuario u on u.idusuario = v.idusuario inner join cliente c on c.idcliente = v.idcliente inner join producto p on p.idproducto = dv.idProducto where v.NumeroDocumento = ?", [NumeroDocumento],
+    (err,result)=>{if (err) {
+        console.log(err);
+        res.status(500).send("Error al buscar la venta.");
+      } else {
+        if (result.length === 0) {
+          res.status(404).send("Venta no encontrada.");
+        } else {
+          res.send(result); 
+        }
+      }
+    });
+  };
 
 
 
-
-
-module.exports = {correlativa,registrar, registarDetalleVenta, descontarStock}
+module.exports = {correlativa,registrar, registarDetalleVenta, descontarStock, verDetalle}

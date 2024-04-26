@@ -6,7 +6,7 @@ select * from venta;
 select * from detalle_venta;
 select * from producto;
 truncate table venta;
-
+select * from Usuario;
 delete from venta where idVenta>0 ;
 
 insert into ROL (Descripcion) values ('ADMINISTRADOR')
@@ -21,7 +21,10 @@ Insert into USUARIO (Documento, NombreCompleto, Correo, Clave, idRol, Estado) va
 Insert into CLIENTE (Documento, NombreCompleto, Correo, Telefono, Estado) values ('000', 'Cliente a la calle', '@gmail.com','3811234567',1)
 ;
 
-
+select * from PRODUCTO;
+select * from DETALLE_VENTA;
+select  u.NombreCompleto as UsuarioRegistro, v.IdVenta, DATE_FORMAT(v.FechaRegistro , '%Y-%m-%d') as FechaRegistro, v.TipoDocumento, v.NumeroDocumento,v.MontoTotal, c.NombreCompleto as NombreCliente,  c.Documento as DocumentoCliente, p.Nombre as Producto, p.Codigo, dv.PrecioVenta, dv.Cantidad, dv.SubTotal from venta v inner join detalle_venta dv on dv.IdVenta = v.IdVenta inner join Usuario u on u.idusuario = v.idusuario inner join cliente c on c.idcliente = v.idcliente inner join producto p on p.idproducto = dv.idProducto where v.NumeroDocumento = ?;
+select * from VENTA;
 
 Insert into CATEGORIA (Descripcion, Estado) values ('Gastos', 1)
 ;
@@ -33,7 +36,7 @@ Insert into NEGOCIO (Nombre, CUIT, Direccion) values ('Nombre del negocio', 'CUI
 Insert into METODO_PAGO (Descripcion, Porcentaje) values ('Efectivo', '0'), ('Tarjeta debito', '0'), ('Tarjeta credito', '0'), ('Transferencia', '0')
 ;
 
-
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '698465xD00';
 
 insert into producto (Codigo, Nombre, Descripcion, IdCategoria, Stock, PrecioCompra, PrecioVenta, Estado) values ('77953957', 'Chesterfield convertible 20 me', '.',1, '10000', '0', '600.00', 1),
 ('7500435198769', 'gillette doble hoja maquinita ', '.',1, '10000', '0', '220.00', 1),

@@ -58,7 +58,7 @@ const FrmCliente = () => {
         timer: 3000
       })
       limpiarCampos()
-      
+      listar()
     }).catch(function(error) {
       Swal.fire({
         icon: 'error',
@@ -72,7 +72,7 @@ const FrmCliente = () => {
 
   // FUNCION PARA VER O LISTAR TODOS LOS CLIENTES DE LA BASE DE DATOS
   const listar = async() =>{
-   await Axios.get("http://localhost:3001/clientes/").then((response)=>{
+   await Axios.get("http://localhost:3001/cliente/").then((response)=>{
       setClientes(response.data)
       setTablaClientes(response.data)
     })
@@ -169,7 +169,7 @@ const FrmCliente = () => {
       
     if(result.isConfirmed){
       Axios.delete("http://localhost:3001/cliente/eliminar/"+cliente.IdCliente)
-      .then(()=>{listar()
+      .then(()=>{
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
           html: <i>El cliente <strong>{cliente.NombreCompleto}</strong> ha sido eliminado correctamente</i>,
@@ -177,6 +177,7 @@ const FrmCliente = () => {
           timer: 3000
         })
         limpiarCampos() 
+        listar()
       }).catch(function(error) {
         Swal.fire({
           icon: 'error',
@@ -212,7 +213,7 @@ const FrmCliente = () => {
   // USEEFFECT PARA VER LOS CLIETNES 
   useEffect(()=>{
     listar()
-  },[clienteList])
+  },[])
 
   return (
     

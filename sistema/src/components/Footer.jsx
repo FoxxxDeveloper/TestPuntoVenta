@@ -14,8 +14,8 @@ import {
  
 
   return (
-    <MDBFooter className='text-white text-center text-lg-left foot' >
-      <MDBContainer className='p-4'>
+    <MDBFooter  className='text-white text-center text-lg-left foot'>
+      <MDBContainer  className='p-4'>
         <MDBRow>
           <MDBCol lg='6' md='12' className='mb-4 mb-md-0'>
             <h5 className='text-uppercase'>Información</h5>
@@ -35,8 +35,8 @@ import {
                 <MDBIcon  icon='home' className='me-2' size='lg' />
                 Tucumán - Argentina
               </p>
-              <p tyle={{fontSize:'20px'}}> <MDBIcon icon='envelope' className='me-3'size='lg' /> deoxysmu00@gmail.com </p>
-              <p tyle={{fontSize:'20px'}}> <MDBIcon icon='phone' className='me-3' size='lg' /> + 54 9 3814031834 </p>
+              <p style={{fontSize:'20px'}}> <MDBIcon icon='envelope' className='me-3'size='lg' /> deoxysmu00@gmail.com </p>
+              <p style={{fontSize:'20px'}}> <MDBIcon icon='phone' className='me-3' size='lg' /> + 54 9 3814031834 </p>
               <a href="https://instagram.com/fox._developer/" target='blank'><p  style={{color: 'white', fontSize:'20px'}}>
                 <MDBIcon fab  icon='instagram' className='me-3' size='lg'/> Fox Developer
               </p></a> 

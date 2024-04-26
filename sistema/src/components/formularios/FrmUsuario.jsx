@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -43,7 +43,7 @@ const FrmUsuario = () => {
       }) 
 
     }else{
-    Axios.post("http://localhost:3001/createUsuario",{
+    Axios.post("http://localhost:3001/usuario/registrar",{
     
     Documento:Documento,
     NombreCompleto:NombreCompleto,
@@ -60,6 +60,7 @@ const FrmUsuario = () => {
         timer: 3000
       })
       limpiarCampos()
+      listar()
       
     }).catch(function(error) {
       Swal.fire({
@@ -73,13 +74,13 @@ const FrmUsuario = () => {
   }
 
   const listar = () =>{
-    Axios.get("http://localhost:3001/Usuarios").then((response)=>{
+    Axios.get("http://localhost:3001/Usuario").then((response)=>{
       setUsuarios(response.data)
     })
   }
 
   const listarRoles = () =>{
-    Axios.get("http://localhost:3001/roles").then((response)=>{
+    Axios.get("http://localhost:3001/rol").then((response)=>{
       setRoles(response.data)
     })
   }
@@ -124,7 +125,7 @@ const FrmUsuario = () => {
 
     }else{
 
-    Axios.put("http://localhost:3001/updateUsuario",{
+    Axios.put("http://localhost:3001/usuario/editar",{
     IdUsuario:IdUsuario,
     Documento:Documento,
     NombreCompleto:NombreCompleto,
@@ -173,7 +174,7 @@ const FrmUsuario = () => {
     }).then((result) => {
       
     if(result.isConfirmed){
-      Axios.delete("http://localhost:3001/deleteUsuario/"+Usuario.IdUsuario)
+      Axios.delete("http://localhost:3001/usuario/eliminar/"+Usuario.IdUsuario)
       .then(()=>{listar()
         noti.fire({
           title: <strong>¡Eliminado!</strong>,
@@ -182,6 +183,7 @@ const FrmUsuario = () => {
           timer: 3000
         })
         limpiarCampos() 
+        listar()
       }).catch(function(error) {
         Swal.fire({
           icon: 'error',
@@ -202,9 +204,12 @@ const FrmUsuario = () => {
     
   }
 
+  useEffect(()=>{
+    listar()
+    listarRoles()
+  },[])
 
-  listar()
-  listarRoles()
+
 
   return (
     

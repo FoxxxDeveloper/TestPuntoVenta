@@ -51,7 +51,7 @@ const FrmRegistrarV = () => {
   
   //FUNCION PARA LISTAR LOS METODOS DE PAGOS
   const listar = () =>{
-    Axios.get("http://localhost:3001/Metodo_Pagos").then((response)=>{
+    Axios.get("http://localhost:3001/Metodo_Pago").then((response)=>{
       setMetodoPagos(response.data)
     })
     
@@ -144,7 +144,7 @@ const FrmRegistrarV = () => {
 
   //FUNCION PARA OBTENER EL NUMERO DE VENTA CORRELATIVA
   const buscarCorrelativo = async() =>{
-    await Axios.get("http://localhost:3001/ventacorrelativa").then((response)=>{
+    await Axios.get("http://localhost:3001/venta/correlativa").then((response)=>{
        setIdVenta(response.data[0].ultimaventa)
      })
    }
@@ -170,7 +170,7 @@ const FrmRegistrarV = () => {
     
     if (event.key === 'Enter') {
 
-      Axios.get(`http://localhost:3001/producto?Codigo=${Codigo}`)
+      Axios.get(`http://localhost:3001/producto/buscar?Codigo=${Codigo}`)
         .then((response) => {
           console.log(response.data)
           // Maneja la respuesta del servidor
@@ -201,7 +201,7 @@ const FrmRegistrarV = () => {
 //FUNCIUON PARA REGISTRAR VENTA
 const handleRegistrar = () => {
   if(productosList!=null){ 
-    Axios.post("http://localhost:3001/createventa",{
+    Axios.post("http://localhost:3001/venta/registrar",{
     idUsuario:1,
     idCliente:IdCliente,
     TipoDocumento:TipoDocumento,
@@ -214,7 +214,7 @@ const handleRegistrar = () => {
      
       productosList.forEach((producto) => {
 
-        Axios.post("http://localhost:3001/createdetalleventa",{
+        Axios.post("http://localhost:3001/venta/registrardetalle",{
         idVenta:IdVenta,
         idProducto:producto.IdProducto,
         PrecioVenta:producto.PrecioVenta,
@@ -223,7 +223,7 @@ const handleRegistrar = () => {
       
         }).then(()=>{
           
-          Axios.put("http://localhost:3001/descontarstock",{
+          Axios.put("http://localhost:3001/venta/descontarstock",{
 
           idProducto:producto.IdProducto,
           Cantidad:producto.Cantidad

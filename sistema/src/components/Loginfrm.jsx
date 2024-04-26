@@ -33,7 +33,7 @@ const Loginfrm = () => {
 
 
   const onSubmit =() =>{
-    axios.post('http://localhost:3001/api/login',body)
+    axios.post('http://localhost:3001/usuario/login',body)
     .then(({data})=>{
       localStorage.setItem('auth',"yes")
       data.Documento=== '43226633'? localStorage.setItem('admin',"yes") : localStorage.setItem('admin',"no") 

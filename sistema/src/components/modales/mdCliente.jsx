@@ -22,7 +22,7 @@ const MdCliente = ({titulo, estado, setEstadoModalC,seleccionarCliente }) => {
 
 
   const listar =async () =>{
-   await Axios.get("http://localhost:3001/clientes").then((response)=>{
+   await Axios.get("http://localhost:3001/cliente").then((response)=>{
       setClientes(response.data)
       setTablaClientes(response.data)
     })

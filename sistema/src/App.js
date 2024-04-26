@@ -6,7 +6,6 @@ import FrmCategoria from './components/formularios/FrmCategoria';
 import FrmCliente from './components/formularios/FrmCliente';
 import FrmCodigoBarra from './components/formularios/FrmCodigoBarra';
 import FrmMetodoPago from './components/formularios/FrmMetodoPago';
-
 import FrmProducto from './components/formularios/FrmProducto';
 import FrmProveedor from './components/formularios/FrmProveedor';
 import FrmRegistrarV from './components/formularios/FrmRegistrarV';
@@ -24,6 +23,7 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
+      {/* PUTO EL QUE LEE */}
     <Route path={login} element={<Login />} />
     <Route path={home} element={<Home/>} />
     <Route path={categoria} element={<FrmCategoria />} />
