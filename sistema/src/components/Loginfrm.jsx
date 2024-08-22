@@ -18,6 +18,7 @@ import {
   import withReactContent from 'sweetalert2-react-content'
   import Swal from 'sweetalert2'
   import Button from 'react-bootstrap/Button';
+  
 const Loginfrm = () => {
   const noti = withReactContent(Swal)
   

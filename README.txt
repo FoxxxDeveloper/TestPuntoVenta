@@ -8,15 +8,15 @@
                                                                                       (FUNCIONABILIDAD)
 *Diseñar front de ventas                                                        LISTO (X)
 *Diseñar front de reporte de ventas                                             LISTO ()
-*Diseñar front de detalles de venta                                             LISTO ()
+*Diseñar front de detalles de venta                                                   ()
                                           
 
 *Diseñar front de compra                                                        LISTO ()
 *Diseñar front de reporte de compras                                            LISTO ()
-*Diseñar front de detalles de compra                                            LISTO ()
+*Diseñar front de detalles de compra                                                  ()
 
 
-*Diseñar e implementar modales de productos/clientes/proveedores                LISTO ()
+*Diseñar e implementar modales de productos/clientes/proveedores                LISTO (x)
 
 
 *Diseñar e implementar para crear codigos de barra

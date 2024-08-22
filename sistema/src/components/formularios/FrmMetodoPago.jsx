@@ -238,7 +238,7 @@ useEffect(()=>{
           
       </Form.Group>
     </Form>
-    {/* <Button style={{margin:"10px"}} variant="warning" type="submit" >Limpiar</Button> */}
+
     <Table striped bordered hover variant="dark" size="sm" style={{width:"1400px"}} className='dgv '>
     <thead>
       <tr>
@@ -271,6 +271,9 @@ useEffect(()=>{
       
     </tbody>
   </Table>
+
+    
+   
   </div>
   <Footer/>
  </div>

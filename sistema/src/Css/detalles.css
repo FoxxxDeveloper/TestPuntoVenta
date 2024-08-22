@@ -1,6 +1,7 @@
 .info2{
     display: flex;
     flex-wrap: wrap;
+    
 }
 .infov{
     width: 600px;
@@ -34,6 +35,7 @@
     border-color: #aaaaaa;
     border-width: 1px;
     border-style: solid;
+    
 }
 
 
